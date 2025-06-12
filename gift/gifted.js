@@ -140,7 +140,7 @@ module.exports = async (Gifted) => {
                         break;
                     }
                 } catch (error) {
-                    console.error(`Error executing plugin ${plugin.filePath}:`, error);
+                  //  console.error(`Error executing plugin ${plugin.filePath}:`, error);
                 }
             }
             handleCases(m, GiftedTech);
