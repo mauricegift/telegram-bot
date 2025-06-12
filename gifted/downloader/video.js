@@ -25,6 +25,7 @@ module.exports = {
                 const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytmp4.php?format=360p&url=${videoUrl}`);
                 const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
+                  const format = apiResponse.data.result.format;
 
                 if (!downloadUrl) {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
@@ -42,7 +43,7 @@ module.exports = {
 ${global.botName} VIDEO DOWNLOADER 
 ╭───────────────◆  
 │⿻ *Title:* ${video.title}
-│⿻ *Quality:* mp4 (360p)
+│⿻ *Quality:* ${format}
 │⿻ *Duration:* ${video.timestamp}
 │⿻ *Viewers:* ${video.views}
 │⿻ *Uploaded:* ${video.ago}
