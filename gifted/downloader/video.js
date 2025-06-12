@@ -22,10 +22,8 @@ module.exports = {
             const video = searchResults.videos[0];
             const videoUrl = video.url;
             try {
-               const apiResponse = await axios.get(`${global.giftedApi}/download/dlmp4?apikey=${global.giftedKey}&url=${videoUrl}`);
-               const downloadUrl = apiResponse.data.result.download_url;
-               /* const apiResponse = await axios.get(`${global.ytdlApi}/api/yt?query=${searchTerm}`);
-                const downloadUrl = apiResponse.data.result.video_url;*/
+                const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytmp4.php?format=360p&url=${videoUrl}`);
+                const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
 
                 if (!downloadUrl) {
@@ -44,7 +42,7 @@ module.exports = {
 ${global.botName} VIDEO DOWNLOADER 
 ╭───────────────◆  
 │⿻ *Title:* ${video.title}
-│⿻ *Quality:* mp4 (72p)
+│⿻ *Quality:* mp4 (360p)
 │⿻ *Duration:* ${video.timestamp}
 │⿻ *Viewers:* ${video.views}
 │⿻ *Uploaded:* ${video.ago}
