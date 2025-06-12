@@ -25,7 +25,7 @@ module.exports = {
                 const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytmp4.php?format=360p&url=${videoUrl}`);
                 const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
-                  const format = apiResponse.data.result.format;
+                const format = apiResponse.data.result.format;
 
                 if (!downloadUrl) {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
