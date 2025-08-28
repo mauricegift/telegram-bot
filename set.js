@@ -1,13 +1,13 @@
 global.prefix = '/'; // Set Your Preferred Prefix
 global.botName = 'GIFTED-MD'; // Bot Name
-global.botVersion = '2.0.1';
+global.botVersion = '2.0.2';
 global.botPic = 'https://files.giftedtech.web.id/file/gifted-md.jpg'; // Can use path, can also use link
-global.botToken = '8383403811:AAG5agwa8Kyx8tE-qFoyqOBdHSoYdDMtexo'; // Replace With Your Bot Token (Get it from BotFather)
-global.ownerUsername = 'Savage Funds'; // Replace With Your Telegram Username(For Bot Owner)
+global.botToken = '7267479440:AAH9V3hr53KY6LKyHWwRquWBcU5VLYKWDQg'; // Replace With Your Bot Token (Get it from BotFather)
+global.ownerUsername = 'mauricegift; // Replace With Your Telegram Username(For Bot Owner)
 global.timeZone = 'Africa/Nigeria'; // Your Time Zone
 global.ownerId = [8084255827]; // Replace With Your Owner Chat ID(For Bot Owner), You Can Add More than 1
 global.footer = '*Powered by GiftedTech*';
-global.ytdlWeb = 'https://ytdl.giftedtech.web.id';
+global.ytdlWeb = 'https://ytdl.giftedtech.co.ke';
 global.giftedYtdlpApi = 'https://ytdlpapi.fly.dev';
 global.giftedApi = 'https://api.giftedtech.co.ke/api'; // Gifted Api
 global.giftedKey = 'gifted'; // Gifted Api Key
