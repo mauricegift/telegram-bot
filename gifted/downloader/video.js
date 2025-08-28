@@ -22,10 +22,10 @@ module.exports = {
             const video = searchResults.videos[0];
             const videoUrl = video.url;
             try {
-                const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytmp4.php?format=360p&url=${videoUrl}`);
+                const apiResponse = await axios.get(`${global.giftedApi}/api/download/ytmp4?apikey=${global.giftedKey}&url=${videoUrl}`);
                 const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
-                const format = apiResponse.data.result.format;
+              //  const format = apiResponse.data.result.format;
 
                 if (!downloadUrl) {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
@@ -43,7 +43,7 @@ module.exports = {
 ${global.botName} VIDEO DOWNLOADER 
 ╭───────────────◆  
 │⿻ *Title:* ${video.title}
-│⿻ *Quality:* ${format}
+│⿻ *Quality:* 720p
 │⿻ *Duration:* ${video.timestamp}
 │⿻ *Viewers:* ${video.views}
 │⿻ *Uploaded:* ${video.ago}
@@ -69,3 +69,4 @@ ${global.botName} VIDEO DOWNLOADER
         }
     }
 };
+
