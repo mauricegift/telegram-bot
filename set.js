@@ -15,7 +15,7 @@ global.maherApi = 'https://api.nexoracle.com'; // NexOracle Api
 global.maherKey = ''; // NexOracle Api Key
 global.lyffeApi = 'https://levanter.onrender.com'; // Lyffe Api
 global.giftedWaChannel = 'https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x';
-global.giftedRepo = "https://github.com/RayBen445/ProfTech_bot";
+global.giftedRepo = "https://github.com/RayBen445/Cool-Shot-AI-V2";
 global.giftedApiRepo = "https://api.github.com/repos/RayBen445/ProfTech_bot";
 
 global.giftechMess = {

@@ -9,21 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RayBen445/ProfTech_bot.git"
+    "url": "git+https://github.com/RayBen445/Cool-Shot-AI-V2.git"
   },
   "keywords": [
     "telegrambot",
     "coolshot-ai",
     "multi-role-ai",
     "telegram-ai-bot",
-    "rayben445"
+    "prof_essor2025"
   ],
-  "author": "RayBen445",
+  "author": "Professor",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RayBen445/ProfTech_bot/issues"
+    "url": "https://github.com/RayBen445/Cool-Shot-AI-V2/issues"
   },
-  "homepage": "https://github.com/RayBen445/ProfTech_bot#readme",
+  "homepage": "https://github.com/RayBen445/Cool-Shot-AI-V2#readme",
   "dependencies": {
     "axios": "^1.7.7",
     "chalk": "^4.1.2",
