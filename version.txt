@@ -1,3 +1,2 @@
-0a545e4e8f1ad20d520b63ba7255a4ff31924c1b
-
-
+v2.0.2 - mauricegift/telegram-bot integration complete
+Enhanced downloader API, menu fixes, and improved authentication

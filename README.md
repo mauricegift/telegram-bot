@@ -2,6 +2,22 @@
 
 A comprehensive Telegram bot offering advanced multi-role AI assistance, administrative tools, support system, and extensive utilities.
 
+## 🆕 Latest Updates (v2.0.2)
+
+### Recent Integration: mauricegift/telegram-bot Enhancements
+- **Enhanced Download API**: Upgraded to more reliable download endpoints with proper authentication
+- **Bug Fixes**: Fixed timezone references in menu commands and video download methods
+- **Improved Error Handling**: Better API error handling for more stable downloads
+- **Performance Optimization**: Optimized API calls with consistent quality displays
+- **Maintained Features**: All existing Cool Shot AI V2 features preserved during integration
+
+### What's New:
+- ✅ **API Authentication**: Proper API key usage for more reliable downloads
+- ✅ **Menu Bug Fix**: Fixed timezone display issues in system menus
+- ✅ **Download Improvements**: Enhanced ytmp3, ytmp4, play, and video commands
+- ✅ **Quality Consistency**: Standardized quality displays (128Kbps audio, 720p video)
+- ✅ **Error Messages**: Better error feedback for failed operations
+
 ## 📱 Connect with us
 **WhatsApp Channel**: https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x
 
