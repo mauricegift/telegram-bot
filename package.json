@@ -1,7 +1,7 @@
 {
-  "name": "gifteed-md",
+  "name": "cool-shot-ai-v2",
   "version": "2.0.0",
-  "description": "Gifted-Md, A simple Telegram user bot Created by Gifted Tech",
+  "description": "𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2, A comprehensive multi-role AI assistant Telegram bot",
   "main": "./index.js",
   "type": "commonjs",
   "scripts": {

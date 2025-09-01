@@ -19,7 +19,7 @@ async function startGifted() {
     if (!Gifted) {
         Gifted = new GiftedMd(`${global.botToken}`, { polling: true });
 
-        console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Gifted Md Connected '));
+        console.log(chalk.bgHex('#90EE90').hex('#333').bold(' 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 Connected '));
         const miscInfo = await Gifted.getMe();
         console.log(chalk.white.bold('—————————————————'));
         console.log('Bot Info: ', JSON.stringify(miscInfo, null, 2));

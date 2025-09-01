@@ -1,6 +1,9 @@
-# ProfTech Bot - Multi-Role AI Assistant
+# 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 - Multi-Role AI Assistant
 
-A comprehensive Telegram bot combining the features of ProfTech_bot and Prof-Tech_MVAI, offering advanced multi-role AI assistance, administrative tools, support system, and extensive utilities.
+A comprehensive Telegram bot offering advanced multi-role AI assistance, administrative tools, support system, and extensive utilities.
+
+## 📱 Connect with us
+**WhatsApp Channel**: https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x
 
 ## 🌟 Key Features
 
@@ -84,7 +87,7 @@ A comprehensive Telegram bot combining the features of ProfTech_bot and Prof-Tec
    global.botToken = 'YOUR_TELEGRAM_BOT_TOKEN_HERE'; // Get from @BotFather
    global.ownerId = [YOUR_TELEGRAM_USER_ID]; // Your Telegram user ID
    global.ownerUsername = 'YOUR_USERNAME'; // Your Telegram username
-   global.botName = 'Your Bot Name';
+   global.botName = '𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2';
    global.timeZone = 'Your/Timezone'; // e.g., 'America/New_York'
    ```
 
@@ -195,7 +198,7 @@ Business assistant for formal communication and professional tasks.
 
 ## 🔄 Migration Guide
 
-### For ProfTech_bot Users
+### For 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 Users
 Your existing bot will gain:
 - Multi-role AI system
 - Language support
@@ -306,6 +309,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Telegram**: [@Prof_essor2025](https://t.me/Prof_essor2025)
+- **WhatsApp Channel**: https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x
 - **Issues**: [GitHub Issues](https://github.com/RayBen445/ProfTech_bot/issues)
 - **Support Ticket**: Use `/createticket` in the bot
 
@@ -313,11 +317,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Stay updated with the latest features:
 - ⭐ Star this repository
-- 📢 Join our channel for announcements
+- 📢 Join our WhatsApp channel: https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x
 - 🔔 Enable GitHub notifications
 
 ---
 
-**© 2024-2025 ProfTech Bot - Enhanced Multi-Role AI Assistant**
+**© 2024-2025 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 - Enhanced Multi-Role AI Assistant**
 
-*Combining the best of both worlds: ProfTech_bot's reliability with Prof-Tech_MVAI's advanced features.*
+*Advanced Telegram bot with comprehensive AI assistance, administrative tools, and utility features.*
