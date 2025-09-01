@@ -319,6 +319,12 @@ async function giftedCustomMessage(Gifted, m) {
             
             const type = Object.keys(data)[0];
             const url = data[type];
+            
+            // Validate URL before proceeding
+            if (!url || typeof url !== 'string') {
+                throw new Error(`Invalid ${type} URL: ${url}. The API may have returned an invalid response.`);
+            }
+            
             const customFileName = data.fileName || `${Date.now()}`;
     
             const ext = path.extname(url).split('?')[0] || '';
