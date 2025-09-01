@@ -16,8 +16,8 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
         const giftedRes = await fetchJson(`${global.giftedApi}/ai/fluximg?apikey=${global.giftedKey}&prompt=${text}`);
         
         // Validate API response
-        if (!giftedRes || !giftedRes.result) {
-            throw new Error('API returned invalid response: missing result URL');
+        if (!giftedRes || !giftedRes.result || typeof giftedRes.result !== 'string' || giftedRes.result.trim() === '') {
+            throw new Error('API returned invalid response: missing or invalid result URL');
         }
         
         Gifted.downloadAndSend({ image: giftedRes.result, caption: giftechMess.done}, giftedButtons, m);
