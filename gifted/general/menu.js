@@ -44,14 +44,14 @@ let Giftedd = async (m, { Gifted, plugins, monospace }) => {
 
   const now = new Date();
   const date = new Intl.DateTimeFormat('en-GB', {
-    timeZone: `${timeZone}`,
+    timeZone: `${global.timeZone}`,
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
   }).format(now);
 
   const time = new Intl.DateTimeFormat('en-GB', {
-    timeZone: `${timeZone}`,
+    timeZone: `${global.timeZone}`,
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
@@ -65,17 +65,17 @@ let Giftedd = async (m, { Gifted, plugins, monospace }) => {
     totalCommands += items.length;
   }
 
-  let giftedMess = `╭══〘〘 *${monospace(botName)}* 〙〙═⊷\n`;
-giftedMess += `┃❍ *Pʀᴇғɪx:*  [ ${monospace(prefix)} ]\n`;
-giftedMess += `┃❍ *ᴏᴡɴᴇʀ:*  @${monospace(ownerUsername)}\n`;
+  let giftedMess = `╭══〘〘 *${monospace(global.botName)}* 〙〙═⊷\n`;
+giftedMess += `┃❍ *Pʀᴇғɪx:*  [ ${monospace(global.prefix)} ]\n`;
+giftedMess += `┃❍ *ᴏᴡɴᴇʀ:*  @${monospace(global.ownerUsername)}\n`;
 giftedMess += `┃❍ *Pʟᴜɢɪɴs:*  ${monospace(totalCommands.toString())}\n`;
-giftedMess += `┃❍ *Vᴇʀsɪᴏɴ:*  ${monospace(botVersion)}\n`;
+giftedMess += `┃❍ *Vᴇʀsɪᴏɴ:*  ${monospace(global.botVersion)}\n`;
 giftedMess += `┃❍ *Uᴘᴛɪᴍᴇ:*  ${monospace(uptime)}\n`;
 giftedMess += `┃❍ *Tɪᴍᴇ Nᴏᴡ:*  ${monospace(time)}\n`;
 giftedMess += `┃❍ *Dᴀᴛᴇ Tᴏᴅᴀʏ:*  ${monospace(date)}\n`;
-giftedMess += `┃❍ *Tɪᴍᴇ Zᴏɴᴇ:*  ${monospace(timeZone)}\n`;
+giftedMess += `┃❍ *Tɪᴍᴇ Zᴏɴᴇ:*  ${monospace(global.timeZone)}\n`;
 giftedMess += `┃❍ *Sᴇʀᴠᴇʀ Rᴀᴍ:*  ${monospace(ram)}\n`;
-giftedMess += `╰═════════════════⊷\n\n*${monospace(botName)} ${monospace('COMMANDS LIST:')}*\n\n`;
+giftedMess += `╰═════════════════⊷\n\n*${monospace(global.botName)} ${monospace('COMMANDS LIST:')}*\n\n`;
 
   for (const [category, items] of Object.entries(groupedPlugins)) {
     items.sort((a, b) => (a.command ? a.command[0].localeCompare(b.command[0]) : a.localeCompare(b)));
