@@ -13,6 +13,7 @@ const {
     searchUsers,
     initializeAdminDb
 } = require('./admin');
+const { validateParseMode, sanitizeForTelegram } = require('../../gift/textSanitizer');
 
 let adminPanel = async (m, { Gifted, text, command }) => {
     const userId = m.from.id;

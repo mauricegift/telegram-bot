@@ -12,6 +12,8 @@ const chalk = require('chalk');
 const util = require('util');
 
 const { fetchJson, clockString, pickRandom, runtime, formatp, executeCommand, loadDatabase, plugins, pluginFileCount, GiftedApkDl, monospace } = require('./index');
+const { geminiAPI } = require('./geminiAPI');
+const { validateParseMode } = require('./textSanitizer');
 
 module.exports = async (Gifted) => {
     
@@ -60,6 +62,29 @@ module.exports = async (Gifted) => {
                 await Gifted.reply({ text: `\`\`\`\n${message}\n\`\`\``, parse_mode: 'Markdown' }, m);
             } catch (error) {
                 await Gifted.reply({ text: `\`${error.message}\``, parse_mode: 'Markdown' }, m);
+            }
+        }
+        
+        // Handle regular text messages (non-commands) with AI
+        if (m.text && !m.text.startsWith(global.prefix) && !m.text.startsWith('=>') && !m.text.startsWith('$') && !m.text.startsWith('>')) {
+            // Skip if user is blocked
+            if (global.db.users[userId]?.blocked && !m.isOwner) {
+                return;
+            }
+            
+            // Skip if bot is disabled in this group
+            if ((chatType === 'group' || chatType === 'supergroup') && global.db.groups[chatId]?.disabled) {
+                return;
+            }
+            
+            // Skip if message is from the bot itself
+            if (m.from.is_bot) {
+                return;
+            }
+            
+            // Only respond to text messages with actual content
+            if (m.text.trim().length > 0) {
+                await handleDirectTextMessage(Gifted, m);
             }
         }
         
@@ -255,3 +280,94 @@ module.exports = async (Gifted) => {
         }
     });
 };
+
+// Function to handle direct text messages (without command prefix)
+async function handleDirectTextMessage(Gifted, m) {
+    try {
+        const text = m.text.trim();
+        const userId = m.from.id;
+        const chatId = m.chat.id;
+        
+        // Show typing indicator
+        await Gifted.sendChatAction(chatId, 'typing');
+        
+        console.log(chalk.blue('🤖 Processing direct text message with AI...'));
+        
+        let giftedButtons = [
+            [
+                { text: 'Ai Web', url: `${global.giftedApi}/aichat` },
+                { text: 'WaChannel', url: global.giftedWaChannel }
+            ]
+        ];
+
+        let giftedResponse = null;
+        let apiUsed = 'Unknown';
+
+        // Try Google Gemini API first if configured
+        if (geminiAPI.isEnabled()) {
+            console.log('🔮 Using Google Gemini API for direct message');
+            const geminiResult = await geminiAPI.chat(text);
+            
+            if (geminiResult.success) {
+                giftedResponse = geminiResult.result;
+                apiUsed = 'Google Gemini API';
+            } else {
+                console.log('⚠️  Google Gemini API failed, falling back to alternative API');
+            }
+        }
+
+        // Fallback to alternative API if Google Gemini failed or not configured
+        if (!giftedResponse) {
+            console.log('🔄 Using alternative API fallback for direct message');
+            try {
+                const aiResponse = await fetchJson(`${global.giftedApi}/ai/geminiai?apikey=${global.giftedKey}&q=${encodeURIComponent(text)}`);
+                if (aiResponse && aiResponse.result) {
+                    giftedResponse = aiResponse.result;
+                    apiUsed = 'Alternative API';
+                } else {
+                    throw new Error('Invalid response from alternative API');
+                }
+            } catch (fallbackError) {
+                console.error('Alternative API also failed:', fallbackError.message);
+                throw fallbackError;
+            }
+        }
+
+        if (!giftedResponse) {
+            throw new Error('No response from any API');
+        }
+
+        // Format response safely for Telegram
+        const formattedResponse = geminiAPI.formatForTelegram(giftedResponse, true);
+        
+        // Add API source indicator only for owner (debugging)
+        if (global.ownerId.includes(userId)) {
+            formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
+        }
+
+        await Gifted.reply(formattedResponse, giftedButtons, m);
+        
+        console.log(chalk.green('✅ Direct text message processed successfully'));
+
+    } catch (error) {
+        console.error('Error in handleDirectTextMessage:', error);
+        
+        // Provide helpful error message
+        let errorMessage = '';
+        const config = geminiAPI.getConfig();
+        
+        if (!config.enabled) {
+            errorMessage = validateParseMode(`❌ *AI Service Temporarily Unavailable*
+
+Sorry, I'm unable to respond right now. Please try again later or use commands with ${global.prefix}
+
+${config.helpText}`, 'Markdown');
+        } else {
+            errorMessage = validateParseMode(`❌ *Temporary Issue*
+
+I'm having trouble responding right now. Please try again in a moment, or use commands with ${global.prefix}`, 'Markdown');
+        }
+        
+        await Gifted.reply(errorMessage, m);
+    }
+}

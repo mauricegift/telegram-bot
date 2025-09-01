@@ -8,25 +8,29 @@ const {
     generateTextUtilsMenu,
     formatTextAnalysis
 } = require('./textutils');
+const { validateParseMode, sanitizeForTelegram } = require('../../gift/textSanitizer');
 
 let textUtilities = async (m, { Gifted, text, command }) => {
     
     if (command === 'textutils' && !text) {
-        const message = `🔧 *Text Utilities Toolkit*\n\n` +
-                       `Welcome to the comprehensive text manipulation toolkit!\n\n` +
-                       `🔄 *Case Transform* - Change text case\n` +
-                       `📊 *Text Analysis* - Analyze your text\n` +
-                       `🎨 *Text Styling* - Apply text formatting\n` +
-                       `🔧 *Text Tools* - Manipulate text\n` +
-                       `🔐 *Encode/Decode* - Convert text formats\n` +
-                       `🎲 *Generate Text* - Create sample text\n\n` +
-                       `Select a category or use specific commands directly.`;
+        const message = validateParseMode(`🔧 *Text Utilities Toolkit*
+
+Welcome to the comprehensive text manipulation toolkit!
+
+🔄 *Case Transform* - Change text case
+📊 *Text Analysis* - Analyze your text  
+🎨 *Text Styling* - Apply text formatting
+🔧 *Text Tools* - Manipulate text
+🔐 *Encode/Decode* - Convert text formats
+🎲 *Generate Text* - Create sample text
+
+Select a category or use specific commands directly.`, 'Markdown');
         
         const keyboard = generateTextUtilsMenu();
         
         await Gifted.reply({ 
-            text: message, 
-            parse_mode: 'Markdown' 
+            text: message.text, 
+            parse_mode: message.parse_mode 
         }, keyboard, m);
         return;
     }
@@ -39,13 +43,15 @@ let textUtilities = async (m, { Gifted, text, command }) => {
     // Case transformation commands
     if (command === 'uppercase' || command === 'upper') {
         const result = textCaseUtils.uppercase(text);
-        await Gifted.reply({ text: `🔄 *Uppercase:*\n${result}`, parse_mode: 'Markdown' }, m);
+        const safeResponse = validateParseMode(`🔄 *Uppercase:*\n${sanitizeForTelegram(result)}`, 'Markdown');
+        await Gifted.reply(safeResponse, m);
         return;
     }
     
     if (command === 'lowercase' || command === 'lower') {
         const result = textCaseUtils.lowercase(text);
-        await Gifted.reply({ text: `🔄 *Lowercase:*\n${result}`, parse_mode: 'Markdown' }, m);
+        const safeResponse = validateParseMode(`🔄 *Lowercase:*\n${sanitizeForTelegram(result)}`, 'Markdown');
+        await Gifted.reply(safeResponse, m);
         return;
     }
     
