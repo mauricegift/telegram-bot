@@ -3,9 +3,9 @@
 
    #### Note:
 
-- **Here is a [DEMO VERSION](https://t.me/giftedmd_bot) of this bot project. You can test it out for 🆓**
+- **Here is a [DEMO VERSION](https://t.me/coolshot_ai_v2_bot) of this bot project. You can test it out for 🆓**
 
-- Gifted-Md Telegram bot project is designed to automate tasks, respond to commands, and integrate with external services or APIs, offering users a robust interactive experience.
+- 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 Telegram bot project is designed to automate tasks, respond to commands, and integrate with external services or APIs, offering users a robust interactive experience.
 
 ## Features
 
@@ -20,12 +20,12 @@
 - Telegram account
 - Telegram Bot Token
 - Telegram Bot User ID(uid)
-- **[`HERE IS`](https://github.com/mauricegift/telegram-bot/blob/main/gift/bot-token-and-uid.md) How to get your BOT TOKEN and BOT UID**
+- **[`HERE IS`](https://github.com/RayBen445/ProfTech_bot/blob/main/gift/bot-token-and-uid.md) How to get your BOT TOKEN and BOT UID**
 
-- **First [Fork Repo](https://github.com/mauricegift/telegram-bot/fork) to obtain your editable repo.**
+- **First [Fork Repo](https://github.com/RayBen445/ProfTech_bot/fork) to obtain your editable repo.**
 
 ### Configure the Bot:
-   - Ensure you **[Fork Repo](https://github.com/mauricegift/telegram-bot/fork)** first.
+   - Ensure you **[Fork Repo](https://github.com/RayBen445/ProfTech_bot/fork)** first.
 
    - There's a set.js.
    - Navigate to it and Add your bot token, bot user ID(id) and other settings:
@@ -38,7 +38,7 @@
 
 ### Deployment
 
-- **Deploy on [HEROKU](https://github.com/mauricegift/telegram-bot/blob/main/gift/heroku.md)**
+- **Deploy on [HEROKU](https://github.com/RayBen445/ProfTech_bot/blob/main/gift/heroku.md)**
 
 - **Deploy on [RENDER](https://dashboard.render.com/new)**
   
@@ -59,9 +59,9 @@ To interact with the bot, users can send commands and messages. The bot will res
 - I'll always be adding more commands, features and making general updates so always check✅ out and sync your forks to stay updated.
 
 ### INCASE OF ISSUES ###
- - [CONTACT OWNER](t.me/mauricegift)
+ - [CONTACT OWNER](https://t.me/rayben445) | [WhatsApp Channel](https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x)
 
-       ©𝟮𝟬𝟮𝟰-2025 𝗚𝗜𝗙𝗧𝗘𝗗 𝗧𝗘𝗖𝗛
+       ©𝟮𝟬𝟮𝟰-2025 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2
 
-- **CHECK OUT MY [WHATSAPP BOT PROJECT](https://github.com/mauricegift/gifted-md) HERE**
+- **JOIN OUR [WHATSAPP CHANNEL](https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x) FOR UPDATES**
 

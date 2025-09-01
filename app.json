@@ -1,9 +1,9 @@
 {
-    "name": "telegram-md",
-    "description": "Gifted-Md, A simple Telegram user bot Created by Gifted Tech",
-    "logo": "https://github.com/mauricegift.png",
-    "repository": "https://github.com/mouricedevs/telegram-bot",
-    "keywords": ["whatsappbot", "Gifted Tech", "GIFTED MD", "GIFTED TECH 𝙈𝘿", "GIFTEDMdWhatsaooBot", "GIFTEDMDWaBot","GIFTED","GIFTED TECH Md Whatsapp Bot","multi device"],
+    "name": "coolshot-ai-v2",
+    "description": "𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 - Advanced Multi-Role AI Assistant Telegram Bot by RayBen445",
+    "logo": "https://files.catbox.moe/vsqy0l.jpg",
+    "repository": "https://github.com/RayBen445/ProfTech_bot",
+    "keywords": ["telegrambot", "coolshot-ai", "multi-role-ai", "ai-assistant", "rayben445", "telegram-ai-bot", "multi-language-bot"],
     "success_url": "/", 
     "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
     "env": {      

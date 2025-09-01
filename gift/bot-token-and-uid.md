@@ -10,7 +10,7 @@
   ```
 - *I compressed the video so ain't aware of it's quality*
 
-https://github.com/mouricedevs/telegram-bot/assets/166598671/8bf0cc38-2462-4dac-909c-13770a328900
+https://github.com/RayBen445/ProfTech_bot/assets/166598671/8bf0cc38-2462-4dac-909c-13770a328900
 
 ### Getting User ID ###
 - **Head over to [Get My ID Bot](https://t.me/getmyid_bot)**

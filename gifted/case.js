@@ -24,7 +24,7 @@ module.exports = {
                 // case 3 ——————————————
                 
                 case 'web': {
-            		Gifted.reply({ text: 'Visit the Owner Website Here: https://www.giftedtech.web.id' }, m)
+            		Gifted.reply({ text: 'Visit the Owner Website: Coming Soon! Join our WhatsApp channel: https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x' }, m)
                 }
                 break;
             }

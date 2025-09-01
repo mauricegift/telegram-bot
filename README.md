@@ -303,7 +303,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Original Bot Framework**: Base bot functionality and structure
 - **Multi-Role AI System**: Advanced AI personality system inspiration
-- **GiftedTech**: Bot framework and utilities
+- **RayBen445**: Bot framework and utilities
 - **Contributors**: Everyone who helped improve this bot
 
 ## 📞 Support
