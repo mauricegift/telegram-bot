@@ -1,7 +1,7 @@
 {
-  "name": "gifteed-md",
+  "name": "cool-shot-ai-v2",
   "version": "2.0.0",
-  "description": "Gifted-Md, A simple Telegram user bot Created by Gifted Tech",
+  "description": "𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2, A comprehensive multi-role AI assistant Telegram bot",
   "main": "./index.js",
   "type": "commonjs",
   "scripts": {
@@ -9,21 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mauricegift/telegram- bot.git"
+    "url": "git+https://github.com/RayBen445/ProfTech_bot.git"
   },
   "keywords": [
     "telegrambot",
-    "gifted-md",
-    "gifted-api",
-    "mouricedevs",
-    "maher-zubair"
+    "coolshot-ai",
+    "multi-role-ai",
+    "telegram-ai-bot",
+    "rayben445"
   ],
-  "author": "GiftedTech",
+  "author": "RayBen445",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mauricegift/telegram- bot/issues"
+    "url": "https://github.com/RayBen445/ProfTech_bot/issues"
   },
-  "homepage": "https://github.com/mauricegift/telegram- bot#readme",
+  "homepage": "https://github.com/RayBen445/ProfTech_bot#readme",
   "dependencies": {
     "axios": "^1.7.7",
     "chalk": "^4.1.2",

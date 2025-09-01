@@ -7,20 +7,20 @@ class GiftedTechDB {
 	giftedFile = path.join(process.cwd(), 'gift', 'gifted-db.json');
 	
 	giftedRead = async () => {
-		let giftedKenya;
+		let coolshotData;
 		if (fs.existsSync(this.giftedFile)) {
-			giftedKenya = JSON.parse(fs.readFileSync(this.giftedFile));
+			coolshotData = JSON.parse(fs.readFileSync(this.giftedFile));
 		} else {
 			fs.writeFileSync(this.giftedFile, JSON.stringify(this.giftedData, null, 2));
-			giftedKenya = this.giftedData;
+			coolshotData = this.giftedData;
 		}
-		return giftedKenya;
+		return coolshotData;
 	}
 	
 	giftedWrite = async (gifteddevs) => {
 		this.giftedData = !!gifteddevs ? gifteddevs : global.db;
-		let mouricedevsDir = path.dirname(this.giftedFile);
-		if (!fs.existsSync(mouricedevsDir)) fs.mkdirSync(mouricedevsDir, { recursive: true });
+		let coolshotDir = path.dirname(this.giftedFile);
+		if (!fs.existsSync(coolshotDir)) fs.mkdirSync(coolshotDir, { recursive: true });
 		fs.writeFileSync(this.giftedFile, JSON.stringify(this.giftedData, null, 2));
 		return this.giftedFile;
 	}
