@@ -93,6 +93,20 @@ module.exports = async (Gifted) => {
             const userName = m.from.username || m.from.first_name || 'Unknown';
             const userTag = userName.startsWith('@') ? userName : `@${userName}`;
             
+            // Check if user is blocked (admin check is in giftedCustomMessage)
+            if (global.db.users[userId]?.blocked && !m.isOwner) {
+                return; // Silently ignore blocked users
+            }
+            
+            // Check if bot is disabled in this group
+            if ((chatType === 'group' || chatType === 'supergroup') && global.db.groups[chatId]?.disabled) {
+                return; // Silently ignore if disabled in group
+            }
+            
+            // Track command usage (import trackCommand function)
+            const { trackCommand } = require('../gifted/general/admin');
+            trackCommand(command, userId);
+            
             if (command) {
                 await Gifted.sendChatAction(chatId, 'typing');
             }
@@ -168,6 +182,53 @@ module.exports = async (Gifted) => {
                 sender: m.from.username,
                 plugins,
             };
+            
+            // Handle callback queries for new features
+            if (parsedData.feature === 'setrole') {
+                const { getUserRole, setUserRole, getLocalizedText } = require('../gifted/ai/roles');
+                const roleKey = parsedData.data;
+                const userId = m.from.id;
+                
+                const success = setUserRole(userId, roleKey);
+                if (success) {
+                    const newRole = getUserRole(userId);
+                    const message = `✅ ${getLocalizedText(userId, 'role_changed')}\n\n` +
+                                   `New Role: *${newRole.name}*\n` +
+                                   `Description: ${newRole.description}\n\n` +
+                                   `*Capabilities:*\n• ${newRole.capabilities.join('\n• ')}`;
+                    
+                    await Gifted.editMessageText(message, {
+                        chat_id: m.chat.id,
+                        message_id: m.message_id,
+                        parse_mode: 'Markdown'
+                    });
+                }
+                await Gifted.answerCallbackQuery(callbackQuery.id);
+                return;
+            }
+            
+            if (parsedData.feature === 'setlang') {
+                const { getUserLanguage, setUserLanguage, getLocalizedText } = require('../gifted/ai/roles');
+                const langCode = parsedData.data;
+                const userId = m.from.id;
+                
+                const success = setUserLanguage(userId, langCode);
+                if (success) {
+                    const newLang = getUserLanguage(userId);
+                    const message = `✅ ${getLocalizedText(userId, 'language_changed')}\n\n` +
+                                   `New Language: *${newLang.flag} ${newLang.name}*\n\n` +
+                                   `🤖 Bot interface updated to ${newLang.name}!`;
+                    
+                    await Gifted.editMessageText(message, {
+                        chat_id: m.chat.id,
+                        message_id: m.message_id,
+                        parse_mode: 'Markdown'
+                    });
+                }
+                await Gifted.answerCallbackQuery(callbackQuery.id);
+                return;
+            }
+            
             if (parsedData.feature) {
                 for (const plugin of plugins) {
                     try {

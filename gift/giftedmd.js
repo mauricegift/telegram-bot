@@ -9,16 +9,53 @@ async function giftedLoadDatabase(Gifted, m) {
     const userId = m.from.id;
     const chatId = m.chat.id;
     const chatType = m.chat.type;
+    
+    // Initialize user data with enhanced fields
     if (!db.users[userId]) {
         db.users[userId] = {
-            username: m.from.username
+            username: m.from.username,
+            joinDate: Date.now(),
+            lastSeen: Date.now(),
+            commandsUsed: 0,
+            aiRole: 'default',
+            language: 'en',
+            blocked: false,
+            premium: false,
+            roleHistory: []
         };
+    } else {
+        // Update existing user data
+        db.users[userId].username = m.from.username;
+        db.users[userId].lastSeen = Date.now();
+        
+        // Initialize missing fields for existing users
+        if (!db.users[userId].joinDate) db.users[userId].joinDate = Date.now();
+        if (!db.users[userId].commandsUsed) db.users[userId].commandsUsed = 0;
+        if (!db.users[userId].aiRole) db.users[userId].aiRole = 'default';
+        if (!db.users[userId].language) db.users[userId].language = 'en';
+        if (db.users[userId].blocked === undefined) db.users[userId].blocked = false;
+        if (db.users[userId].premium === undefined) db.users[userId].premium = false;
+        if (!db.users[userId].roleHistory) db.users[userId].roleHistory = [];
     }
+    
+    // Initialize group data with enhanced fields
     if (chatType === 'group' || chatType === 'supergroup') {
         if (!db.groups[chatId]) {
             db.groups[chatId] = {
-                groupName: m.chat.title
+                groupName: m.chat.title,
+                lastActivity: Date.now(),
+                memberCount: 0,
+                settings: {},
+                disabled: false
             };
+        } else {
+            // Update existing group data
+            db.groups[chatId].groupName = m.chat.title;
+            db.groups[chatId].lastActivity = Date.now();
+            
+            // Initialize missing fields
+            if (!db.groups[chatId].settings) db.groups[chatId].settings = {};
+            if (db.groups[chatId].disabled === undefined) db.groups[chatId].disabled = false;
         }
     }
 }
