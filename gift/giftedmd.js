@@ -4,6 +4,7 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
 const path = require('path');
+const { validateParseMode } = require('./textSanitizer');
 
 async function giftedLoadDatabase(Gifted, m) {
     const userId = m.from.id;
@@ -119,6 +120,19 @@ async function giftedCustomMessage(Gifted, m) {
                 content.reply_markup = { inline_keyboard: buttons };
             }
             
+            // Validate and sanitize content with parse_mode
+            if (typeof content === 'object' && content.parse_mode) {
+                if (content.text) {
+                    const validated = validateParseMode(content.text, content.parse_mode);
+                    content.text = validated.text;
+                    content.parse_mode = validated.parse_mode;
+                } else if (content.caption) {
+                    const validated = validateParseMode(content.caption, content.parse_mode);
+                    content.caption = validated.text;
+                    content.parse_mode = validated.parse_mode;
+                }
+            }
+            
             if (typeof content === 'object') {
                 if (content.image) {
                     return await Gifted.sendPhoto(m.chat.id, content.image.url || content.image, content);
@@ -141,7 +155,28 @@ async function giftedCustomMessage(Gifted, m) {
             throw new Error('Invalid content type.');
         } catch (error) {
             console.error('Gifted.reply error:', error.message);
-            await Gifted.sendMessage(m.chat.id, `Failed to send message: ${error.message}`, {});
+            
+            // Fallback: try sending without parse_mode if parse error
+            if (error.message.includes('parse') || error.message.includes('entities')) {
+                try {
+                    console.log('🔧 Parse error detected, retrying without parse_mode');
+                    const fallbackContent = { ...content };
+                    delete fallbackContent.parse_mode;
+                    
+                    if (fallbackContent.text) {
+                        return await Gifted.sendMessage(m.chat.id, fallbackContent.text, fallbackContent);
+                    } else if (fallbackContent.caption) {
+                        if (fallbackContent.image) {
+                            return await Gifted.sendPhoto(m.chat.id, fallbackContent.image.url || fallbackContent.image, fallbackContent);
+                        }
+                    }
+                } catch (fallbackError) {
+                    console.error('Fallback also failed:', fallbackError.message);
+                }
+            }
+            
+            // Last resort: send simple error message
+            await Gifted.sendMessage(m.chat.id, `⚠️ Message could not be sent due to formatting issues.`, {});
         }
     };
     

@@ -1,6 +1,7 @@
 const moment = require('moment-timezone'),
       { totalmem: totalMemoryBytes, 
        freemem: freeMemoryBytes } = require('os');
+const { validateParseMode, safeMonospace, sanitizeForTelegram } = require('../../gift/textSanitizer');
 
 const byteToKB = 1 / 1024;
 const byteToMB = byteToKB / 1024;
@@ -65,26 +66,28 @@ let Giftedd = async (m, { Gifted, plugins, monospace }) => {
     totalCommands += items.length;
   }
 
-  let giftedMess = `╭══〘〘 *${monospace(botName)}* 〙〙═⊷\n`;
-giftedMess += `┃❍ *Pʀᴇғɪx:*  [ ${monospace(prefix)} ]\n`;
-giftedMess += `┃❍ *ᴏᴡɴᴇʀ:*  @${monospace(ownerUsername)}\n`;
-giftedMess += `┃❍ *Pʟᴜɢɪɴs:*  ${monospace(totalCommands.toString())}\n`;
-giftedMess += `┃❍ *Vᴇʀsɪᴏɴ:*  ${monospace(botVersion)}\n`;
-giftedMess += `┃❍ *Uᴘᴛɪᴍᴇ:*  ${monospace(uptime)}\n`;
-giftedMess += `┃❍ *Tɪᴍᴇ Nᴏᴡ:*  ${monospace(time)}\n`;
-giftedMess += `┃❍ *Dᴀᴛᴇ Tᴏᴅᴀʏ:*  ${monospace(date)}\n`;
-giftedMess += `┃❍ *Tɪᴍᴇ Zᴏɴᴇ:*  ${monospace(timeZone)}\n`;
-giftedMess += `┃❍ *Sᴇʀᴠᴇʀ Rᴀᴍ:*  ${monospace(ram)}\n`;
-giftedMess += `╰═════════════════⊷\n\n*${monospace(botName)} ${monospace('COMMANDS LIST:')}*\n\n`;
+  // Create menu message with safe formatting
+  let giftedMess = `+== *${sanitizeForTelegram(botName)}* ==+\n`;
+  giftedMess += `| *PREFIX:*  [ ${safeMonospace(prefix)} ]\n`;
+  giftedMess += `| *OWNER:*  @${sanitizeForTelegram(ownerUsername)}\n`;
+  giftedMess += `| *PLUGINS:*  ${safeMonospace(totalCommands.toString())}\n`;
+  giftedMess += `| *VERSION:*  ${safeMonospace(botVersion)}\n`;
+  giftedMess += `| *UPTIME:*  ${safeMonospace(uptime)}\n`;
+  giftedMess += `| *TIME NOW:*  ${safeMonospace(time)}\n`;
+  giftedMess += `| *DATE TODAY:*  ${safeMonospace(date)}\n`;
+  giftedMess += `| *TIME ZONE:*  ${safeMonospace(timeZone)}\n`;
+  giftedMess += `| *SERVER RAM:*  ${safeMonospace(ram)}\n`;
+  giftedMess += `+===================+\n\n`;
+  giftedMess += `*${sanitizeForTelegram(botName)} COMMANDS LIST:*\n\n`;
 
   for (const [category, items] of Object.entries(groupedPlugins)) {
     items.sort((a, b) => (a.command ? a.command[0].localeCompare(b.command[0]) : a.localeCompare(b)));
-    giftedMess += `╭─── 『 *${monospace(category.toUpperCase())}* 』\n`;
+    giftedMess += `+--- [ *${category.toUpperCase()}* ]\n`;
     items.forEach(item => {
-      const command = item.command ? `✧ *${global.prefix}${item.command[0]}*` : `✧ *${global.prefix}${item}*`;
+      const command = item.command ? `• *${global.prefix}${item.command[0]}*` : `• *${global.prefix}${item}*`;
       giftedMess += `${command}\n`;
     });
-    giftedMess += `╰─────────────────◊\n\n`;
+    giftedMess += `+----------------+\n\n`;
   }
 
   let giftedButtons = [
@@ -97,7 +100,14 @@ giftedMess += `╰═════════════════⊷\n\n*${m
     ],
   ];
 
-  await Gifted.reply({ image: { url: global.botPic }, caption: giftedMess, parse_mode: 'Markdown' }, giftedButtons, m);
+  // Validate the final message for safe Telegram transmission
+  const safeMessage = validateParseMode(giftedMess, 'Markdown');
+  
+  await Gifted.reply({ 
+    image: { url: global.botPic }, 
+    caption: safeMessage.text, 
+    parse_mode: safeMessage.parse_mode 
+  }, giftedButtons, m);
 };
 
 Giftedd.command = ['menu', 'start', 'menus', 'allmenu'];
