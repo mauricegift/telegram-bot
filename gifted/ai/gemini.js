@@ -61,10 +61,28 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
         
         // Add API source indicator (only for debugging, can be removed in production)
         if (global.ownerId.includes(m.from.id)) {
-            formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
+            if (formattedResponse.needsSplit) {
+                // Add source to last chunk
+                formattedResponse.chunks[formattedResponse.chunks.length - 1].text += `\n\n_Source: ${apiUsed}_`;
+            } else {
+                formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
+            }
         }
 
-        await Gifted.reply(formattedResponse, giftedButtons, m);
+        // Handle chunked responses
+        if (formattedResponse.needsSplit && formattedResponse.chunks) {
+            // Send first chunk with buttons
+            await Gifted.reply(formattedResponse.chunks[0], giftedButtons, m);
+            
+            // Send remaining chunks without buttons (except last one)
+            for (let i = 1; i < formattedResponse.chunks.length; i++) {
+                const isLastChunk = i === formattedResponse.chunks.length - 1;
+                await Gifted.reply(formattedResponse.chunks[i], isLastChunk ? [] : undefined, m);
+            }
+        } else {
+            // Single message
+            await Gifted.reply(formattedResponse, giftedButtons, m);
+        }
 
     } catch (error) {
         console.error('Error in Gemini command:', error);

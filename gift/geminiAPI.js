@@ -15,12 +15,12 @@
  */
 
 const fetch = require('node-fetch');
-const { validateParseMode } = require('./textSanitizer');
+const { validateParseMode, validateMessageLength } = require('./textSanitizer');
 
 class GeminiAPI {
     constructor() {
         this.apiKey = process.env.GEMINI_API_KEY || null;
-        this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
         this.enabled = !!this.apiKey;
         
         if (!this.enabled) {
@@ -186,10 +186,28 @@ User query: ${prompt}`;
             .replace(/`([^`\n]+)`/g, '`$1`')  // Ensure inline code formatting
             .trim();
 
+        // Validate message length (4096 limit for messages)
+        const lengthValidation = validateMessageLength(cleaned, false);
+        
+        if (lengthValidation.needsSplit) {
+            // For long messages, return first chunk and indicate splitting is needed
+            console.log(`📄 Gemini response split into ${lengthValidation.chunkCount} chunks (${lengthValidation.originalLength} chars)`);
+        }
+
         if (useMarkdown) {
-            return validateParseMode(cleaned, 'Markdown');
+            const validated = validateParseMode(cleaned, 'Markdown');
+            return {
+                ...validated,
+                needsSplit: lengthValidation.needsSplit,
+                chunks: lengthValidation.chunks.map(chunk => validateParseMode(chunk, 'Markdown'))
+            };
         } else {
-            return { text: cleaned, parse_mode: null };
+            return { 
+                text: cleaned, 
+                parse_mode: null,
+                needsSplit: lengthValidation.needsSplit,
+                chunks: lengthValidation.chunks.map(chunk => ({ text: chunk, parse_mode: null }))
+            };
         }
     }
 }

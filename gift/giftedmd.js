@@ -4,7 +4,7 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const chalk = require('chalk');
 const path = require('path');
-const { validateParseMode } = require('./textSanitizer');
+const { validateParseMode, validateMessageLength } = require('./textSanitizer');
 
 async function giftedLoadDatabase(Gifted, m) {
     const userId = m.from.id;
@@ -120,7 +120,7 @@ async function giftedCustomMessage(Gifted, m) {
                 content.reply_markup = { inline_keyboard: buttons };
             }
             
-            // Validate and sanitize content with parse_mode
+            // Validate and sanitize content with parse_mode and length limits
             if (typeof content === 'object' && content.parse_mode) {
                 if (content.text) {
                     const validated = validateParseMode(content.text, content.parse_mode);
@@ -135,18 +135,107 @@ async function giftedCustomMessage(Gifted, m) {
             
             if (typeof content === 'object') {
                 if (content.image) {
+                    // Handle caption length for images
+                    if (content.caption) {
+                        const lengthValidation = validateMessageLength(content.caption, true); // true for caption
+                        if (lengthValidation.needsSplit) {
+                            // Send first image with first chunk of caption
+                            const firstContent = { ...content, caption: lengthValidation.chunks[0] };
+                            const result = await Gifted.sendPhoto(m.chat.id, content.image.url || content.image, firstContent);
+                            
+                            // Send remaining chunks as text messages
+                            for (let i = 1; i < lengthValidation.chunks.length; i++) {
+                                await Gifted.sendMessage(m.chat.id, lengthValidation.chunks[i], {
+                                    parse_mode: content.parse_mode,
+                                    reply_to_message_id: content.reply_to_message_id,
+                                    reply_markup: i === lengthValidation.chunks.length - 1 ? content.reply_markup : undefined
+                                });
+                            }
+                            return result;
+                        }
+                    }
                     return await Gifted.sendPhoto(m.chat.id, content.image.url || content.image, content);
                 }
                 if (content.video) {
+                    // Handle caption length for videos
+                    if (content.caption) {
+                        const lengthValidation = validateMessageLength(content.caption, true);
+                        if (lengthValidation.needsSplit) {
+                            const firstContent = { ...content, caption: lengthValidation.chunks[0] };
+                            const result = await Gifted.sendVideo(m.chat.id, content.video.url || content.video, firstContent);
+                            
+                            for (let i = 1; i < lengthValidation.chunks.length; i++) {
+                                await Gifted.sendMessage(m.chat.id, lengthValidation.chunks[i], {
+                                    parse_mode: content.parse_mode,
+                                    reply_to_message_id: content.reply_to_message_id,
+                                    reply_markup: i === lengthValidation.chunks.length - 1 ? content.reply_markup : undefined
+                                });
+                            }
+                            return result;
+                        }
+                    }
                     return await Gifted.sendVideo(m.chat.id, content.video.url || content.video, content);
                 }
                 if (content.audio) {
+                    // Handle caption length for audio
+                    if (content.caption) {
+                        const lengthValidation = validateMessageLength(content.caption, true);
+                        if (lengthValidation.needsSplit) {
+                            const firstContent = { ...content, caption: lengthValidation.chunks[0] };
+                            const result = await Gifted.sendAudio(m.chat.id, content.audio.url || content.audio, firstContent);
+                            
+                            for (let i = 1; i < lengthValidation.chunks.length; i++) {
+                                await Gifted.sendMessage(m.chat.id, lengthValidation.chunks[i], {
+                                    parse_mode: content.parse_mode,
+                                    reply_to_message_id: content.reply_to_message_id,
+                                    reply_markup: i === lengthValidation.chunks.length - 1 ? content.reply_markup : undefined
+                                });
+                            }
+                            return result;
+                        }
+                    }
                     return await Gifted.sendAudio(m.chat.id, content.audio.url || content.audio, content);
                 }
                 if (content.document) {
+                    // Handle caption length for documents
+                    if (content.caption) {
+                        const lengthValidation = validateMessageLength(content.caption, true);
+                        if (lengthValidation.needsSplit) {
+                            const firstContent = { ...content, caption: lengthValidation.chunks[0] };
+                            const result = await Gifted.sendDocument(m.chat.id, content.document.url || content.document, firstContent);
+                            
+                            for (let i = 1; i < lengthValidation.chunks.length; i++) {
+                                await Gifted.sendMessage(m.chat.id, lengthValidation.chunks[i], {
+                                    parse_mode: content.parse_mode,
+                                    reply_to_message_id: content.reply_to_message_id,
+                                    reply_markup: i === lengthValidation.chunks.length - 1 ? content.reply_markup : undefined
+                                });
+                            }
+                            return result;
+                        }
+                    }
                     return await Gifted.sendDocument(m.chat.id, content.document.url || content.document, content);
                 }
                 if (content.text) {
+                    // Handle message length for text messages
+                    const lengthValidation = validateMessageLength(content.text, false); // false for message
+                    if (lengthValidation.needsSplit) {
+                        let result;
+                        for (let i = 0; i < lengthValidation.chunks.length; i++) {
+                            const chunkContent = {
+                                ...content,
+                                text: lengthValidation.chunks[i],
+                                reply_markup: i === lengthValidation.chunks.length - 1 ? content.reply_markup : undefined
+                            };
+                            
+                            if (i === 0) {
+                                result = await Gifted.sendMessage(m.chat.id, chunkContent.text, chunkContent);
+                            } else {
+                                await Gifted.sendMessage(m.chat.id, chunkContent.text, chunkContent);
+                            }
+                        }
+                        return result;
+                    }
                     return await Gifted.sendMessage(m.chat.id, content.text, content);
                 }
                 throw new Error('Unsupported content type.');
