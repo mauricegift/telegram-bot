@@ -71,8 +71,8 @@ A comprehensive Telegram bot offering advanced multi-role AI assistance, adminis
 
 1. **Fork and Clone Repository**
    ```bash
-   git clone https://github.com/RayBen445/ProfTech_bot.git
-   cd ProfTech_bot
+   git clone https://github.com/RayBen445/Cool-Shot-AI-V2.git
+   cd Cool-Shot-AI-V2
    ```
 
 2. **Install Dependencies**
@@ -264,8 +264,8 @@ module.exports = myPlugin;
 ### VPS/Local
 ```bash
 # Clone repository
-git clone https://github.com/RayBen445/ProfTech_bot.git
-cd ProfTech_bot
+git clone https://github.com/RayBen445/Cool-Shot-AI-V2.git
+cd Cool-Shot-AI-V2
 
 # Install dependencies
 npm install
@@ -303,14 +303,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Original Bot Framework**: Base bot functionality and structure
 - **Multi-Role AI System**: Advanced AI personality system inspiration
-- **RayBen445**: Bot framework and utilities
+- **Professor**: Bot framework and utilities
 - **Contributors**: Everyone who helped improve this bot
 
 ## 📞 Support
 
 - **Telegram**: [@Prof_essor2025](https://t.me/Prof_essor2025)
 - **WhatsApp Channel**: https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x
-- **Issues**: [GitHub Issues](https://github.com/RayBen445/ProfTech_bot/issues)
+- **Issues**: [GitHub Issues](https://github.com/RayBen445/Cool-Shot-AI-V2/issues)
 - **Support Ticket**: Use `/createticket` in the bot
 
 ## 🔄 Updates

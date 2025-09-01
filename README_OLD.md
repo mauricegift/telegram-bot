@@ -20,12 +20,12 @@
 - Telegram account
 - Telegram Bot Token
 - Telegram Bot User ID(uid)
-- **[`HERE IS`](https://github.com/RayBen445/ProfTech_bot/blob/main/gift/bot-token-and-uid.md) How to get your BOT TOKEN and BOT UID**
+- **[`HERE IS`](https://github.com/RayBen445/Cool-Shot-AI-V2/blob/main/gift/bot-token-and-uid.md) How to get your BOT TOKEN and BOT UID**
 
-- **First [Fork Repo](https://github.com/RayBen445/ProfTech_bot/fork) to obtain your editable repo.**
+- **First [Fork Repo](https://github.com/RayBen445/Cool-Shot-AI-V2/fork) to obtain your editable repo.**
 
 ### Configure the Bot:
-   - Ensure you **[Fork Repo](https://github.com/RayBen445/ProfTech_bot/fork)** first.
+   - Ensure you **[Fork Repo](https://github.com/RayBen445/Cool-Shot-AI-V2/fork)** first.
 
    - There's a set.js.
    - Navigate to it and Add your bot token, bot user ID(id) and other settings:
@@ -38,7 +38,7 @@
 
 ### Deployment
 
-- **Deploy on [HEROKU](https://github.com/RayBen445/ProfTech_bot/blob/main/gift/heroku.md)**
+- **Deploy on [HEROKU](https://github.com/RayBen445/Cool-Shot-AI-V2/blob/main/gift/heroku.md)**
 
 - **Deploy on [RENDER](https://dashboard.render.com/new)**
   
@@ -59,7 +59,7 @@ To interact with the bot, users can send commands and messages. The bot will res
 - I'll always be adding more commands, features and making general updates so always check✅ out and sync your forks to stay updated.
 
 ### INCASE OF ISSUES ###
- - [CONTACT OWNER](https://t.me/rayben445) | [WhatsApp Channel](https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x)
+ - [CONTACT OWNER](https://t.me/Prof_essor2025) | [WhatsApp Channel](https://whatsapp.com/channel/0029VbAlmwn8V0tmhrtxSH0x)
 
        ©𝟮𝟬𝟮𝟰-2025 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2
 

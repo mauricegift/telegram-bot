@@ -1,9 +1,9 @@
 {
     "name": "coolshot-ai-v2",
-    "description": "𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 - Advanced Multi-Role AI Assistant Telegram Bot by RayBen445",
+    "description": "𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2 - Advanced Multi-Role AI Assistant Telegram Bot by Professor",
     "logo": "https://files.catbox.moe/vsqy0l.jpg",
-    "repository": "https://github.com/RayBen445/ProfTech_bot",
-    "keywords": ["telegrambot", "coolshot-ai", "multi-role-ai", "ai-assistant", "rayben445", "telegram-ai-bot", "multi-language-bot"],
+    "repository": "https://github.com/RayBen445/Cool-Shot-AI-V2",
+    "keywords": ["telegrambot", "coolshot-ai", "multi-role-ai", "ai-assistant", "prof_essor2025", "telegram-ai-bot", "multi-language-bot"],
     "success_url": "/", 
     "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
     "env": {      
