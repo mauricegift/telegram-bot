@@ -1,6 +1,6 @@
 global.prefix = '/'; // Set Your Preferred Prefix
 global.botName = '𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2'; // Bot Name
-global.botVersion = '2.0.1';
+global.botVersion = '2.0.2';
 global.botPic = 'https://files.catbox.moe/vsqy0l.jpg'; // Can use path, can also use link
 global.botToken = '8163964430:AAEgna2rnKR2DOspzMyYiz5TJY68dlmN3C4'; // Replace With Your Bot Token (Get it from BotFather)
 global.ownerUsername = 'Prof_essor2025'; // Replace With Your Telegram Username(For Bot Owner)

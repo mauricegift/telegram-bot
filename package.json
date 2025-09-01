@@ -1,6 +1,6 @@
 {
   "name": "cool-shot-ai-v2",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2, A comprehensive multi-role AI assistant Telegram bot",
   "main": "./index.js",
   "type": "commonjs",
