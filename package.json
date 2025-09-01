@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mauricegift/telegram- bot.git"
+    "url": "git+https://github.com/RayBen445/ProfTech_bot.git"
   },
   "keywords": [
     "telegrambot",
@@ -21,9 +21,9 @@
   "author": "GiftedTech",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mauricegift/telegram- bot/issues"
+    "url": "https://github.com/RayBen445/ProfTech_bot/issues"
   },
-  "homepage": "https://github.com/mauricegift/telegram- bot#readme",
+  "homepage": "https://github.com/RayBen445/ProfTech_bot#readme",
   "dependencies": {
     "axios": "^1.7.7",
     "chalk": "^4.1.2",

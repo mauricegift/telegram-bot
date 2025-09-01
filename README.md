@@ -108,8 +108,8 @@ MAHER_API_KEY=your_api_key_here
 ```
 
 ### Important Notes
-- **Use Your Own Token**: Always use ProfTech_bot's own `TELEGRAM_TOKEN`
-- **No Credential Copying**: Never copy tokens from Prof-Tech_MVAI
+- **Use Your Own Token**: Always use 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2's own `TELEGRAM_TOKEN`
+- **No Credential Copying**: Never copy tokens from other bots
 - **Secure Storage**: Keep sensitive data in environment variables
 
 ## 📖 Usage Guide
@@ -209,11 +209,11 @@ Your existing bot will gain:
 
 **No configuration changes needed** - all new features are additive.
 
-### For Prof-Tech_MVAI Users
-To migrate to ProfTech_bot:
+### For Multi-Role AI Users
+To migrate to 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2:
 
 1. **Backup Data**: Export your user data and settings
-2. **Update Token**: Use ProfTech_bot's `TELEGRAM_TOKEN`
+2. **Update Token**: Use 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2's `TELEGRAM_TOKEN`
 3. **Configure Settings**: Update `set.js` with your preferences
 4. **Import Data**: User data structure is compatible
 5. **Test Features**: Verify all functionality works as expected
@@ -277,7 +277,7 @@ npm install
 npm start
 
 # Or use PM2 for production
-pm2 start index.js --name "proftech-bot"
+pm2 start index.js --name "cool-shot-ai-v2"
 ```
 
 ## 🔒 Security
@@ -301,8 +301,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Credits
 
-- **Original ProfTech_bot**: Base bot functionality and structure
-- **Prof-Tech_MVAI**: Multi-role AI system inspiration
+- **Original Bot Framework**: Base bot functionality and structure
+- **Multi-Role AI System**: Advanced AI personality system inspiration
 - **GiftedTech**: Bot framework and utilities
 - **Contributors**: Everyone who helped improve this bot
 
