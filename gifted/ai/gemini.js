@@ -31,23 +31,23 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
                 giftedResponse = geminiResult.result;
                 apiUsed = 'Google Gemini API';
             } else {
-                console.log('⚠️  Google Gemini API failed, falling back to GiftedTech API');
+                console.log('⚠️  Google Gemini API failed, falling back to alternative API');
             }
         }
 
-        // Fallback to GiftedTech API if Google Gemini failed or not configured
+        // Fallback to alternative API if Google Gemini failed or not configured
         if (!giftedResponse) {
-            console.log('🔄 Using GiftedTech API fallback');
+            console.log('🔄 Using alternative API fallback');
             try {
                 const aiResponse = await fetchJson(`${global.giftedApi}/ai/geminiai?apikey=${global.giftedKey}&q=${encodeURIComponent(text)}`);
                 if (aiResponse && aiResponse.result) {
                     giftedResponse = aiResponse.result;
-                    apiUsed = 'GiftedTech API';
+                    apiUsed = 'Alternative API';
                 } else {
-                    throw new Error('Invalid response from GiftedTech API');
+                    throw new Error('Invalid response from alternative API');
                 }
             } catch (fallbackError) {
-                console.error('GiftedTech API also failed:', fallbackError.message);
+                console.error('Alternative API also failed:', fallbackError.message);
                 throw fallbackError;
             }
         }
@@ -115,7 +115,7 @@ GeminiConfig.category = ['ai'];
 GeminiConfig.settings = { owner: true };
 
 Giftedd.command = ['gemini', 'geminiai'];
-Giftedd.desc = 'Gemini AI Chat - Uses Google Gemini API if configured, fallback to GiftedTech API';
+Giftedd.desc = 'Gemini AI Chat - Uses Google Gemini API if configured, with alternative API fallback';
 Giftedd.category = ['ai'];
 
 module.exports = [Giftedd, GeminiConfig];

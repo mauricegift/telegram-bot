@@ -15,7 +15,7 @@
  */
 
 const fetch = require('node-fetch');
-const { validateParseMode } = require('../gift/textSanitizer');
+const { validateParseMode } = require('./textSanitizer');
 
 class GeminiAPI {
     constructor() {
@@ -80,10 +80,15 @@ Add to your .env file or export:
             throw new Error('Invalid prompt provided');
         }
 
+        // Add system context to help Gemini understand its identity
+        const systemContext = `You are 𝐂𝐨𝐨𝐥 𝐒𝐡𝐨𝐭 𝐀𝐈 𝐕2, an advanced AI assistant created and developed by Cool Shot Systems. When asked about yourself, your name, or who created you, always respond that you are Cool Shot AI V2 developed by Cool Shot Systems. You are helpful, knowledgeable, and provide accurate information. Do not mention any other companies or developers as your creator.
+
+User query: ${prompt}`;
+
         const requestBody = {
             contents: [{
                 parts: [{
-                    text: prompt
+                    text: systemContext
                 }]
             }],
             generationConfig: {

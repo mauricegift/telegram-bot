@@ -6,7 +6,7 @@ let Giftedd = async (m, { Gifted, sender }) => {
   const repoData = response.data;
   const { name, forks_count, stargazers_count, html_url, created_at, updated_at, owner } = repoData;
 
-  let giftedMess = `Hello *@${sender},*\nThis is *Gifted-Md,* A Telegram Bot Built by *@${global.ownerUsername},* Enhanced with Amazing Features to Make Your Whatsapp Communication and Interaction Experience Amazing\n\n*ʀᴇᴘᴏ ʟɪɴᴋ:* ${global.giftedRepo}\n\n*❲❒❳ ɴᴀᴍᴇ:* ${name}\n*❲❒❳ sᴛᴀʀs:* ${stargazers_count}\n*❲❒❳ ғᴏʀᴋs:* ${forks_count}\n*❲❒❳ ᴄʀᴇᴀᴛᴇᴅ ᴏɴ:* ${new Date(created_at).toLocaleDateString()}\n*❲❒❳ ʟᴀsᴛ ᴜᴘᴅᴀᴛᴇᴅ:* ${new Date(updated_at).toLocaleDateString()}\n*❲❒❳ ᴏᴡɴᴇʀ:* ${owner.login}`;
+  let giftedMess = `Hello *@${sender},*\nThis is *${global.botName},* A Powerful Telegram AI Bot Created and Developed by *Cool Shot Systems* with Advanced Features for Enhanced Communication and AI Interaction\n\n*ʀᴇᴘᴏ ʟɪɴᴋ:* ${global.giftedRepo}\n\n*❲❒❳ ɴᴀᴍᴇ:* ${name}\n*❲❒❳ sᴛᴀʀs:* ${stargazers_count}\n*❲❒❳ ғᴏʀᴋs:* ${forks_count}\n*❲❒❳ ᴄʀᴇᴀᴛᴇᴅ ᴏɴ:* ${new Date(created_at).toLocaleDateString()}\n*❲❒❳ ʟᴀsᴛ ᴜᴘᴅᴀᴛᴇᴅ:* ${new Date(updated_at).toLocaleDateString()}\n*❲❒❳ ᴅᴇᴠᴇʟᴏᴘᴇʀ:* Cool Shot Systems`;
 
   let giftedButtons = [
     [
