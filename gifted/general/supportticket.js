@@ -15,6 +15,8 @@ const {
     TICKET_STATUSES
 } = require('./tickets');
 
+const { isAdmin } = require('./admin');
+
 // Store temporary ticket data during creation
 let tempTicketData = {};
 
@@ -64,7 +66,7 @@ let supportTicket = async (m, { Gifted, text, command }) => {
             return;
         }
         
-        if (ticket.userId !== userId && !m.isOwner) {
+        if (ticket.userId !== userId && !isAdmin(userId)) {
             await Gifted.reply({ text: '❌ You can only view your own tickets' }, m);
             return;
         }
@@ -85,7 +87,7 @@ let supportTicket = async (m, { Gifted, text, command }) => {
         }
         
         // Admin controls
-        if (m.isOwner) {
+        if (isAdmin(userId)) {
             keyboard.push(...generateTicketManagementKeyboard(ticketId));
         }
         
@@ -140,7 +142,7 @@ let supportTicket = async (m, { Gifted, text, command }) => {
         return;
     }
     
-    if (command === 'tickets' && m.isOwner) {
+    if (command === 'tickets' && isAdmin(userId)) {
         // Admin: View all tickets
         const allTickets = getAllTickets(null, null, 15);
         
@@ -168,7 +170,7 @@ let supportTicket = async (m, { Gifted, text, command }) => {
         return;
     }
     
-    if (command === 'ticketstats' && m.isOwner) {
+    if (command === 'ticketstats' && isAdmin(userId)) {
         const stats = getTicketStats();
         
         const categoryStats = Object.entries(stats.byCategory)
@@ -222,7 +224,7 @@ supportTicket.callback = async (m, { Gifted, data }) => {
             break;
             
         case 'ticketstatus':
-            if (!m.isOwner) {
+            if (!isAdmin(userId)) {
                 await Gifted.answerCallbackQuery(m.id, { text: '❌ Admin access required!' });
                 return;
             }
@@ -250,7 +252,7 @@ supportTicket.callback = async (m, { Gifted, data }) => {
             break;
             
         case 'ticketassign':
-            if (!m.isOwner) {
+            if (!isAdmin(userId)) {
                 await Gifted.answerCallbackQuery(m.id, { text: '❌ Admin access required!' });
                 return;
             }

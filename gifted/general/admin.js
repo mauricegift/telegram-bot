@@ -5,6 +5,11 @@ const { fetchJson } = require('../../gift');
  * Enhanced Admin Panel with comprehensive management features
  */
 
+// Utility function to check if user is admin/owner
+function isAdmin(userId) {
+    return global.ownerId.includes(userId);
+}
+
 // Admin statistics and analytics
 async function getSystemStats() {
     const stats = {
@@ -373,6 +378,7 @@ function trackCommand(command, userId) {
 }
 
 module.exports = {
+    isAdmin,
     getSystemStats,
     getTopCommands,
     getUserInfo,
