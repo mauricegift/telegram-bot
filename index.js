@@ -1,3 +1,9 @@
+require('./set');
+const path = require('path');
+const express = require('express');
+const GiftedMd = require('node-telegram-bot-api'); 
+const chalk = require('chalk');
+
 // Global error handlers - These prevent the bot from crashing unexpectedly
 // and help identify issues that cause the bot to stop responding
 process.on('unhandledRejection', (reason, promise) => {
@@ -13,12 +19,6 @@ process.on('uncaughtException', (error) => {
     // Log additional context but don't exit - let the bot continue running
     console.error(chalk.yellow('⚠️  This may indicate a synchronous error that wasn\'t caught'));
 });
-
-require('./set');
-const path = require('path');
-const express = require('express');
-const GiftedMd = require('node-telegram-bot-api'); 
-const chalk = require('chalk');
 const { customMessage: GiftedMess, DataBase: GiftedDB } = require('./gift');
 const gifteddb = new GiftedDB();
 let Gifted;
