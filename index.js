@@ -41,7 +41,13 @@ async function startGifted() {
         }, 5000);
 
         Gifted.on('message', async (m) => {
-            await GiftedMess(Gifted, m);
+            try {
+                console.log(chalk.magenta('📥 Message received by first handler (giftedmd)'));
+                await GiftedMess(Gifted, m);
+                console.log(chalk.magenta('✅ First handler completed successfully'));
+            } catch (error) {
+                console.error(chalk.red('❌ Error in first message handler:'), error);
+            }
         });
 
         require('./gift/gifted')(Gifted);

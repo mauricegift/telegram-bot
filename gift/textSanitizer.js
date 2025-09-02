@@ -116,6 +116,89 @@ function safeItalic(text) {
 }
 
 /**
+ * Split long text into chunks that fit Telegram limits
+ * @param {string} text - Text to split
+ * @param {number} maxLength - Maximum length per chunk (4096 for messages, 1024 for captions)
+ * @returns {Array<string>} Array of text chunks
+ */
+function splitLongText(text, maxLength = 4096) {
+    if (!text || typeof text !== 'string') return [''];
+    
+    if (text.length <= maxLength) return [text];
+    
+    const chunks = [];
+    let currentChunk = '';
+    const lines = text.split('\n');
+    
+    for (const line of lines) {
+        // If single line is too long, split it by words
+        if (line.length > maxLength) {
+            if (currentChunk) {
+                chunks.push(currentChunk.trim());
+                currentChunk = '';
+            }
+            
+            const words = line.split(' ');
+            for (const word of words) {
+                if ((currentChunk + ' ' + word).length > maxLength) {
+                    if (currentChunk) {
+                        chunks.push(currentChunk.trim());
+                        currentChunk = word;
+                    } else {
+                        // Single word is too long, split it forcefully
+                        chunks.push(word.substring(0, maxLength));
+                        currentChunk = word.substring(maxLength);
+                    }
+                } else {
+                    currentChunk += (currentChunk ? ' ' : '') + word;
+                }
+            }
+        } else {
+            // Check if adding this line exceeds the limit
+            if ((currentChunk + '\n' + line).length > maxLength) {
+                if (currentChunk) {
+                    chunks.push(currentChunk.trim());
+                    currentChunk = line;
+                } else {
+                    chunks.push(line);
+                }
+            } else {
+                currentChunk += (currentChunk ? '\n' : '') + line;
+            }
+        }
+    }
+    
+    if (currentChunk) {
+        chunks.push(currentChunk.trim());
+    }
+    
+    return chunks.filter(chunk => chunk.length > 0);
+}
+
+/**
+ * Validate message length and split if necessary
+ * @param {string} text - Text to validate
+ * @param {boolean} isCaption - Whether this is a caption (1024 limit) or message (4096 limit)
+ * @returns {object} Object with validated text chunks and metadata
+ */
+function validateMessageLength(text, isCaption = false) {
+    const maxLength = isCaption ? 1024 : 4096;
+    
+    if (!text || typeof text !== 'string') {
+        return { chunks: [''], needsSplit: false, originalLength: 0 };
+    }
+    
+    const chunks = splitLongText(text, maxLength);
+    
+    return {
+        chunks: chunks,
+        needsSplit: chunks.length > 1,
+        originalLength: text.length,
+        chunkCount: chunks.length
+    };
+}
+
+/**
  * Validate and fix parse_mode content
  * @param {string} text - Text to validate
  * @param {string} parseMode - Parse mode ('Markdown', 'HTML', etc.)
@@ -183,5 +266,7 @@ module.exports = {
     safeMonospace,
     safeBold,
     safeItalic,
-    validateParseMode
+    validateParseMode,
+    splitLongText,
+    validateMessageLength
 };

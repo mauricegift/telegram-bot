@@ -14,10 +14,20 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
 
     try {
         const giftedRes = await fetchJson(`${global.giftedApi}/ai/fluximg?apikey=${global.giftedKey}&prompt=${text}`);
+        
+        // Validate API response
+        if (!giftedRes || !giftedRes.result || typeof giftedRes.result !== 'string' || giftedRes.result.trim() === '') {
+            throw new Error('API returned invalid response: missing or invalid result URL');
+        }
+        
         Gifted.downloadAndSend({ image: giftedRes.result, caption: giftechMess.done}, giftedButtons, m);
     } catch (error) {
         console.error('Error occurred while fetching AI data:', error);
-        Gifted.reply({ text: 'Flux is Unavailable Right Now.'}, giftedButtons, m);
+        if (error.message.includes('Invalid') || error.message.includes('API returned')) {
+            Gifted.reply({ text: 'Failed to generate image. The API returned an invalid response. Please try again.'}, giftedButtons, m);
+        } else {
+            Gifted.reply({ text: 'Flux is Unavailable Right Now.'}, giftedButtons, m);
+        }
     }
 };
 

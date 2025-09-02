@@ -61,15 +61,33 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
         
         // Add API source indicator (only for debugging, can be removed in production)
         if (global.ownerId.includes(m.from.id)) {
-            formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
+            if (formattedResponse.needsSplit) {
+                // Add source to last chunk
+                formattedResponse.chunks[formattedResponse.chunks.length - 1].text += `\n\n_Source: ${apiUsed}_`;
+            } else {
+                formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
+            }
         }
 
-        await Gifted.reply(formattedResponse, giftedButtons, m);
+        // Handle chunked responses
+        if (formattedResponse.needsSplit && formattedResponse.chunks) {
+            // Send first chunk with buttons
+            await Gifted.reply(formattedResponse.chunks[0], giftedButtons, m);
+            
+            // Send remaining chunks without buttons (except last one)
+            for (let i = 1; i < formattedResponse.chunks.length; i++) {
+                const isLastChunk = i === formattedResponse.chunks.length - 1;
+                await Gifted.reply(formattedResponse.chunks[i], isLastChunk ? [] : undefined, m);
+            }
+        } else {
+            // Single message
+            await Gifted.reply(formattedResponse, giftedButtons, m);
+        }
 
     } catch (error) {
         console.error('Error in Gemini command:', error);
         
-        // Provide helpful error message based on configuration
+        // Provide helpful error message based on error type and configuration
         let errorMessage = '';
         const config = geminiAPI.getConfig();
         
@@ -79,8 +97,37 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
 Both Google Gemini API and fallback service are currently unavailable.
 
 ${config.helpText}`, 'Markdown');
+        } else if (error.message && error.message.includes('Invalid Gemini API key')) {
+            errorMessage = validateParseMode(`❌ *Invalid Gemini API Key*
+
+The Google Gemini API key is invalid or has expired.
+
+*To fix this:*
+1. Get a new API key from: https://aistudio.google.com/app/apikey
+2. Update your GEMINI_API_KEY environment variable
+3. Restart the bot
+
+*For Render.com:*
+Go to Environment tab → Update GEMINI_API_KEY → Redeploy`, 'Markdown');
+        } else if (error.message && error.message.includes('quota')) {
+            errorMessage = validateParseMode(`❌ *Gemini API Quota Exceeded*
+
+Your Google Gemini API usage limit has been reached.
+
+*Solutions:*
+• Wait for quota to reset
+• Upgrade your API plan at Google AI Studio
+• Check usage at: https://aistudio.google.com/app/apikey`, 'Markdown');
+        } else if (error.message && error.message.includes('rate limit')) {
+            errorMessage = validateParseMode(`❌ *Rate Limit Exceeded*
+
+Too many requests to Gemini API. Please wait a moment and try again.`, 'Markdown');
         } else {
-            errorMessage = validateParseMode('❌ *Gemini AI Temporarily Unavailable*\n\nPlease try again in a moment.', 'Markdown');
+            errorMessage = validateParseMode(`❌ *Gemini AI Temporarily Unavailable*
+
+${error.message || 'Unknown error occurred'}
+
+Please try again in a moment.`, 'Markdown');
         }
         
         await Gifted.reply(errorMessage, giftedButtons, m);
