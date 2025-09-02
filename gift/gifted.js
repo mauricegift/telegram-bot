@@ -1,3 +1,5 @@
+process.on('uncaughtException', console.error);
+process.on('unhandledRejection', console.error);
 require('../set');
 const { handleCases } = require('../gifted/case');
 

@@ -20,7 +20,7 @@ module.exports = {
                 const fileName = apiResponse.data.result.title;
 
                 if (!downloadUrl) {
-                    return Gifted.reply({ text: '❌ Failed to retrieve download link. Please try again later or use a different YouTube URL.' }, m);
+                    return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
                 }
 
                  let giftedButtons = [
@@ -54,17 +54,12 @@ ${global.botName} SONG DOWNLOADER
 
                 Gifted.downloadAndSend({ audio: downloadUrl, fileName: fileName, caption: giftechMess.done }, giftedButtons, m);
             } catch (e) {
-                console.error('API Error in ytmp3 command:', e);
-                // Always reply to user with helpful error message
-                const errorMsg = e.code === 'ENOTFOUND' || e.code === 'ECONNREFUSED' 
-                    ? '🌐 Network error: Unable to connect to download service. Please try again later.'
-                    : '❌ Audio download service temporarily unavailable. Please try again in a few minutes.';
-                return Gifted.reply({ text: errorMsg }, giftedButtons, m);
+                console.error('API Error:', e);
+                return Gifted.reply({ text: 'Failed to fetch download link from API.' }, giftedButtons, m);
             }
         } catch (e) {
-            console.error('URL validation error in ytmp3 command:', e);
-            // Provide helpful error message for URL validation failures
-            return Gifted.reply({ text: '🔗 Please provide a valid YouTube URL. Example: https://youtu.be/VIDEO_ID' }, m);
+            console.error('Error:', e);
+            return Gifted.reply({ text: giftechMess.error }, m);
         }
     }
 };
