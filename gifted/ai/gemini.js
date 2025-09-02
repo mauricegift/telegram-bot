@@ -58,16 +58,6 @@ let Giftedd = async (m, { Gifted, text, fetchJson }) => {
 
         // Format response safely for Telegram
         const formattedResponse = geminiAPI.formatForTelegram(giftedResponse, true);
-        
-        // Add API source indicator (only for debugging, can be removed in production)
-        if (global.ownerId.includes(m.from.id)) {
-            if (formattedResponse.needsSplit) {
-                // Add source to last chunk
-                formattedResponse.chunks[formattedResponse.chunks.length - 1].text += `\n\n_Source: ${apiUsed}_`;
-            } else {
-                formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
-            }
-        }
 
         // Handle chunked responses
         if (formattedResponse.needsSplit && formattedResponse.chunks) {
