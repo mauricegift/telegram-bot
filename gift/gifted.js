@@ -18,7 +18,10 @@ const { validateParseMode } = require('./textSanitizer');
 module.exports = async (Gifted) => {
     
     Gifted.on('message', async (m) => {
-        await loadDatabase(Gifted, m);
+        try {
+            console.log(chalk.cyan('📥 Message received by second handler (gifted.js)'));
+            await loadDatabase(Gifted, m);
+        
         
         const chatId = m.chat.id;
         const userId = m.from.id;
@@ -113,6 +116,10 @@ module.exports = async (Gifted) => {
                 );
             }
             console.log();
+        }
+        console.log(chalk.cyan('✅ Second handler completed successfully'));
+        } catch (error) {
+            console.error(chalk.red('❌ Error in second message handler (gifted.js):'), error);
         }
     });
     
