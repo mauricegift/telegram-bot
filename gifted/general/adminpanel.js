@@ -1,4 +1,5 @@
 const { 
+    isAdmin,
     getSystemStats, 
     getTopCommands, 
     getUserInfo, 
@@ -21,7 +22,7 @@ let adminPanel = async (m, { Gifted, text, command }) => {
     // Initialize admin database structures
     initializeAdminDb();
     
-    if (!m.isOwner) {
+    if (!isAdmin(userId)) {
         await Gifted.reply({ text: '❌ Admin access required!' }, m);
         return;
     }
@@ -237,7 +238,7 @@ let adminPanel = async (m, { Gifted, text, command }) => {
 adminPanel.callback = async (m, { Gifted, data }) => {
     const userId = m.from.id;
     
-    if (!global.ownerId.includes(userId)) {
+    if (!isAdmin(userId)) {
         await Gifted.answerCallbackQuery(m.id, { text: '❌ Admin access required!' });
         return;
     }

@@ -356,11 +356,6 @@ async function handleDirectTextMessage(Gifted, m) {
 
         // Format response safely for Telegram
         const formattedResponse = geminiAPI.formatForTelegram(giftedResponse, true);
-        
-        // Add API source indicator only for owner (debugging)
-        if (global.ownerId.includes(userId)) {
-            formattedResponse.text += `\n\n_Source: ${apiUsed}_`;
-        }
 
         await Gifted.reply(formattedResponse, giftedButtons, m);
         
