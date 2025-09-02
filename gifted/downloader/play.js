@@ -22,21 +22,21 @@ module.exports = {
             const video = searchResults.videos[0];
             const videoUrl = video.url;
 
+            let giftedButtons = [
+                [
+                    { text: 'Ytdl Web', url: `${global.ytdlWeb}` },
+                    { text: 'WaChannel', url: global.giftedWaChannel }
+                ]
+            ];
+
             try {
                 const apiResponse = await axios.get(`${global.giftedApi}/api/download/ytmp3?apikey=${global.giftedKey}&url=${videoUrl}`);
                 const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
 
                 if (!downloadUrl) {
-                    return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
+                    return Gifted.reply({ text: '❌ Failed to retrieve download link. Please try again later or use a different song.' }, giftedButtons, m);
                 }
-
-                let giftedButtons = [
-                [
-                    { text: 'Ytdl Web', url: `${global.ytdlWeb}` },
-                    { text: 'WaChannel', url: global.giftedWaChannel }
-                ]
-            ]
 
                 let giftedMess = `
 ${global.botName} SONG DOWNLOADER 
@@ -59,12 +59,20 @@ ${global.botName} SONG DOWNLOADER
 
                 Gifted.downloadAndSend({ audio: downloadUrl, fileName: fileName, caption: giftechMess.done }, giftedButtons, m);
             } catch (e) {
-                console.error('API Error:', e);
-                return Gifted.reply({ text: 'Failed to fetch download link from API.' }, giftedButtons, m);
+                console.error('API Error in play command:', e);
+                // Always reply to user with helpful error message
+                const errorMsg = e.code === 'ENOTFOUND' || e.code === 'ECONNREFUSED' 
+                    ? '🌐 Network error: Unable to connect to download service. Please try again later.'
+                    : '❌ Download service temporarily unavailable. Please try again in a few minutes.';
+                return Gifted.reply({ text: errorMsg }, giftedButtons, m);
             }
         } catch (e) {
-            console.error('Error:', e);
-            return Gifted.reply({ text: giftechMess.error }, giftedButtons, m);
+            console.error('Search Error in play command:', e);
+            // Provide helpful error message for search failures
+            const errorMsg = e.code === 'ENOTFOUND' 
+                ? '🌐 Unable to search for songs. Please check your internet connection and try again.'
+                : '🔍 Song search failed. Please try with a different search term.';
+            return Gifted.reply({ text: errorMsg }, m);
         }
     }
 };
