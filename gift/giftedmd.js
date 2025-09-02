@@ -67,7 +67,7 @@ async function giftedCustomMessage(Gifted, m) {
     const chatType = m.chat.type;
     
     if (m) {
-        m.isOwner = ownerId.includes(userId) || false
+        m.isOwner = global.ownerId.includes(userId) || false
         m.isPrivate = (chatType !== 'group' && chatType !== 'supergroup' && chatType !== 'channel') || false
         m.isGroup = (chatType === 'group' || chatType === 'supergroup') || false
     }

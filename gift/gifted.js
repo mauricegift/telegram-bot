@@ -71,27 +71,35 @@ module.exports = async (Gifted) => {
         // Handle regular text messages (non-commands) with AI
         if (m.text && !m.text.startsWith(global.prefix) && !m.text.startsWith('=>') && !m.text.startsWith('$') && !m.text.startsWith('>')) {
             console.log(chalk.yellow(`🔍 Direct text message detected: "${m.text}"`));
+            console.log(chalk.blue(`📋 User ID: ${userId}, Chat ID: ${chatId}, Chat Type: ${chatType}`));
             
             // Skip if user is blocked
-            if (global.db.users[userId]?.blocked && !m.isOwner) {
+            const userBlocked = global.db.users[userId]?.blocked;
+            console.log(chalk.blue(`🔐 User blocked status: ${userBlocked}, Is owner: ${m.isOwner}`));
+            if (userBlocked && !m.isOwner) {
                 console.log(chalk.red(`⚠️  User ${userId} is blocked, skipping response`));
                 return;
             }
             
             // Skip if bot is disabled in this group
-            if ((chatType === 'group' || chatType === 'supergroup') && global.db.groups[chatId]?.disabled) {
+            const groupDisabled = (chatType === 'group' || chatType === 'supergroup') && global.db.groups[chatId]?.disabled;
+            console.log(chalk.blue(`🏢 Group disabled status: ${groupDisabled}`));
+            if (groupDisabled) {
                 console.log(chalk.red(`⚠️  Bot disabled in group ${chatId}, skipping response`));
                 return;
             }
             
             // Skip if message is from the bot itself
+            console.log(chalk.blue(`🤖 Is bot message: ${m.from.is_bot}`));
             if (m.from.is_bot) {
                 console.log(chalk.red(`⚠️  Message from bot itself, skipping response`));
                 return;
             }
             
             // Only respond to text messages with actual content
-            if (m.text.trim().length > 0) {
+            const hasContent = m.text.trim().length > 0;
+            console.log(chalk.blue(`📝 Has content: ${hasContent}, length: ${m.text.trim().length}`));
+            if (hasContent) {
                 console.log(chalk.green(`✅ Processing direct text message: "${m.text}"`));
                 await handleDirectTextMessage(Gifted, m);
             } else {
