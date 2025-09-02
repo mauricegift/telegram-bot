@@ -67,30 +67,38 @@ module.exports = async (Gifted) => {
         
         // Handle regular text messages (non-commands) with AI
         if (m.text && !m.text.startsWith(global.prefix) && !m.text.startsWith('=>') && !m.text.startsWith('$') && !m.text.startsWith('>')) {
+            console.log(chalk.yellow(`🔍 Direct text message detected: "${m.text}"`));
+            
             // Skip if user is blocked
             if (global.db.users[userId]?.blocked && !m.isOwner) {
+                console.log(chalk.red(`⚠️  User ${userId} is blocked, skipping response`));
                 return;
             }
             
             // Skip if bot is disabled in this group
             if ((chatType === 'group' || chatType === 'supergroup') && global.db.groups[chatId]?.disabled) {
+                console.log(chalk.red(`⚠️  Bot disabled in group ${chatId}, skipping response`));
                 return;
             }
             
             // Skip if message is from the bot itself
             if (m.from.is_bot) {
+                console.log(chalk.red(`⚠️  Message from bot itself, skipping response`));
                 return;
             }
             
             // Only respond to text messages with actual content
             if (m.text.trim().length > 0) {
+                console.log(chalk.green(`✅ Processing direct text message: "${m.text}"`));
                 await handleDirectTextMessage(Gifted, m);
+            } else {
+                console.log(chalk.yellow(`⚠️  Empty text message, skipping response`));
             }
         }
         
         if (m.text) {
             console.log('\x1b[30m--------------------\x1b[0m');
-            console.log(chalk.bgHex("#e74c3c").bold(` ${botName} NEW MESSAGE! `));
+            console.log(chalk.bgHex("#e74c3c").bold(` ${global.botName} NEW MESSAGE! `));
             console.log(
                 `   - Date: ${new Date().toLocaleString('id-ID')} WIB \n` +
                 `   - Message: ${m.text} \n` +
@@ -288,6 +296,8 @@ async function handleDirectTextMessage(Gifted, m) {
         const userId = m.from.id;
         const chatId = m.chat.id;
         
+        console.log(chalk.cyan(`🤖 Starting handleDirectTextMessage for: "${text}"`));
+        
         // Show typing indicator
         await Gifted.sendChatAction(chatId, 'typing');
         
@@ -311,9 +321,13 @@ async function handleDirectTextMessage(Gifted, m) {
             if (geminiResult.success) {
                 giftedResponse = geminiResult.result;
                 apiUsed = 'Google Gemini API';
+                console.log(chalk.green('✅ Google Gemini API responded successfully'));
             } else {
                 console.log('⚠️  Google Gemini API failed, falling back to alternative API');
+                console.log('Gemini error:', geminiResult.error);
             }
+        } else {
+            console.log('⚠️  Google Gemini API not enabled, using fallback API');
         }
 
         // Fallback to alternative API if Google Gemini failed or not configured
@@ -321,10 +335,13 @@ async function handleDirectTextMessage(Gifted, m) {
             console.log('🔄 Using alternative API fallback for direct message');
             try {
                 const aiResponse = await fetchJson(`${global.giftedApi}/ai/geminiai?apikey=${global.giftedKey}&q=${encodeURIComponent(text)}`);
+                console.log('Alternative API response received:', !!aiResponse);
                 if (aiResponse && aiResponse.result) {
                     giftedResponse = aiResponse.result;
                     apiUsed = 'Alternative API';
+                    console.log(chalk.green('✅ Alternative API responded successfully'));
                 } else {
+                    console.log('Alternative API response invalid:', aiResponse);
                     throw new Error('Invalid response from alternative API');
                 }
             } catch (fallbackError) {
@@ -336,6 +353,8 @@ async function handleDirectTextMessage(Gifted, m) {
         if (!giftedResponse) {
             throw new Error('No response from any API');
         }
+
+        console.log(`📤 Sending response from ${apiUsed}...`);
 
         // Format response safely for Telegram
         const formattedResponse = geminiAPI.formatForTelegram(giftedResponse, true);
@@ -350,24 +369,30 @@ async function handleDirectTextMessage(Gifted, m) {
         console.log(chalk.green('✅ Direct text message processed successfully'));
 
     } catch (error) {
-        console.error('Error in handleDirectTextMessage:', error);
+        console.error(chalk.red('❌ Error in handleDirectTextMessage:'), error);
+        console.error('Full error object:', error);
         
-        // Provide helpful error message
-        let errorMessage = '';
-        const config = geminiAPI.getConfig();
-        
-        if (!config.enabled) {
-            errorMessage = validateParseMode(`❌ *AI Service Temporarily Unavailable*
+        try {
+            // Provide helpful error message
+            let errorMessage = '';
+            const config = geminiAPI.getConfig();
+            
+            if (!config.enabled) {
+                errorMessage = validateParseMode(`❌ *AI Service Temporarily Unavailable*
 
 Sorry, I'm unable to respond right now. Please try again later or use commands with ${global.prefix}
 
 ${config.helpText}`, 'Markdown');
-        } else {
-            errorMessage = validateParseMode(`❌ *Temporary Issue*
+            } else {
+                errorMessage = validateParseMode(`❌ *Temporary Issue*
 
 I'm having trouble responding right now. Please try again in a moment, or use commands with ${global.prefix}`, 'Markdown');
+            }
+            
+            await Gifted.reply(errorMessage, m);
+            console.log(chalk.yellow('⚠️  Sent fallback error message to user'));
+        } catch (fallbackError) {
+            console.error(chalk.red('❌ Failed to send fallback error message:'), fallbackError);
         }
-        
-        await Gifted.reply(errorMessage, m);
     }
 }
