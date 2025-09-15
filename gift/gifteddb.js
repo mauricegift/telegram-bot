@@ -1,4 +1,4 @@
-require('../set');
+require('../config');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,3 +27,4 @@ class GiftedTechDB {
 }
 
 module.exports = { DataBase: GiftedTechDB };
+
