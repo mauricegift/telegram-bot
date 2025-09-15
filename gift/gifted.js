@@ -1,6 +1,6 @@
 process.on('uncaughtException', console.error);
 process.on('unhandledRejection', console.error);
-require('../set');
+require('../config');
 const { handleCases } = require('../gifted/case');
 
 const TelegramBot = require('node-telegram-bot-api');
@@ -194,3 +194,4 @@ module.exports = async (Gifted) => {
         }
     });
 };
+
