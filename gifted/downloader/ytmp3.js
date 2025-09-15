@@ -15,9 +15,10 @@ module.exports = {
             if (!videoUrl.startsWith("https://youtu")) return Gifted.reply({ text: 'Please Provide a Valid YouTube Link' }, m);
 
             try {
-                const apiResponse = await axios.get(`${global.giftedApi}/api/download/ytmp3?apikey=${global.giftedKey}&url=${videoUrl}`);
+                const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/audio.php?url=${videoUrl}`);
                 const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
+                const format = apiResponse.data.result.format;
         
                 if (!downloadUrl) {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
@@ -25,7 +26,7 @@ module.exports = {
 
                  let giftedButtons = [
                 [
-                    { text: 'Ytdl Web', url: `${global.ytdlWeb}` },
+                    { text: 'Audio Url', url: `${apiResponse.data.result.stream_url}` },
                     { text: 'WaChannel', url: global.giftedWaChannel }
                 ]
             ];
@@ -37,7 +38,7 @@ module.exports = {
 ${global.botName} SONG DOWNLOADER 
 ╭───────────────◆  
 │⿻ *Title:* ${video.title}
-│⿻ *Quality:* 128Kbps
+│⿻ *Quality:* ${format}
 │⿻ *Duration:* ${video.timestamp}
 │⿻ *Viewers:* ${video.views}
 │⿻ *Uploaded:* ${video.ago}
@@ -63,4 +64,5 @@ ${global.botName} SONG DOWNLOADER
         }
     }
 };
+
 
