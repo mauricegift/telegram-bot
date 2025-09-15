@@ -109,6 +109,7 @@ async function giftedCustomMessage(Gifted, m) {
     };
     
     Gifted.downloadAndSend = async (data, buttonsOrMsg, m) => {
+        let filePath = null;
         try {
             let buttons = [];
             
@@ -162,60 +163,66 @@ async function giftedCustomMessage(Gifted, m) {
     
             const ext = path.extname(url).split('?')[0] || '';
             const fileName = `${customFileName}${ext}`;
-            const filePath = path.resolve(__dirname, '..', 'temp', fileName);
+            filePath = path.resolve(__dirname, '..', 'temp', fileName);
 
             const tempDir = path.resolve(__dirname, '..', 'temp');
             if (!fs.existsSync(tempDir)) {
                 fs.mkdirSync(tempDir, { recursive: true });
             }
     
-            const writer = fs.createWriteStream(filePath);
+            // Download file with better error handling
             const response = await axios({
                 url,
                 method: 'GET',
                 responseType: 'stream',
+                timeout: 60000, // 1 minute timeout
+                validateStatus: function (status) {
+                    return status >= 200 && status < 300; // Only accept 2xx status codes
+                }
             });
     
+            const writer = fs.createWriteStream(filePath);
             response.data.pipe(writer);
     
             await new Promise((resolve, reject) => {
                 writer.on('finish', resolve);
                 writer.on('error', reject);
+                response.data.on('error', reject);
             });
     
-            if (typeof data === 'object') {
-                if (data.image) {
-                    return await Gifted.sendPhoto(m.chat.id, filePath, data);
-                }
-                if (data.video) {
-                    return await Gifted.sendVideo(m.chat.id, filePath, data);
-                }
-                if (data.audio) {
-                    return await Gifted.sendAudio(m.chat.id, filePath, data);
-                }
-                if (data.document) {
-                    return await Gifted.sendDocument(m.chat.id, filePath, data);
-                }
+            if (!fs.existsSync(filePath) || fs.statSync(filePath).size === 0) {
+                throw new Error('Downloaded file is empty or does not exist');
+            }
+    
+            let result;
+            if (data.image) {
+                result = await Gifted.sendPhoto(m.chat.id, filePath, data);
+            } else if (data.video) {
+                result = await Gifted.sendVideo(m.chat.id, filePath, data);
+            } else if (data.audio) {
+                result = await Gifted.sendAudio(m.chat.id, filePath, data);
+            } else if (data.document) {
+                result = await Gifted.sendDocument(m.chat.id, filePath, data);
+            } else {
                 throw new Error('Unsupported content type.');
             }
             
-            fs.unlinkSync(filePath);
+            return result;
         } catch (error) {
             console.error(`Error in downloadAndSend: ${error.message}`);
             await Gifted.sendMessage(m.chat.id, `Failed to send message: ${error.message}`, {});
+            throw error; // Re-throw to let caller handle it
         } finally {
-             const tempDir = path.resolve(__dirname, '..', 'temp');
-             fs.readdirSync(tempDir).forEach(file => {
-                 const fileToDelete = path.join(tempDir, file);
-                 try {
-                     fs.unlinkSync(fileToDelete);
-                 } catch (err) {
-                     console.error(`Failed to delete temp file: ${fileToDelete}`, err);
-                 }
-             });
+            // Clean up the downloaded file
+            if (filePath && fs.existsSync(filePath)) {
+                try {
+                    fs.unlinkSync(filePath);
+                } catch (err) {
+                    console.error(`Failed to delete temp file: ${filePath}`, err);
+                }
+            }
         }
     };
 }
 
 module.exports = { loadDatabase: giftedLoadDatabase, customMessage: giftedCustomMessage };
-
