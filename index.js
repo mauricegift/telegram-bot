@@ -1,4 +1,4 @@
-require('./set');
+require('./config');
 const path = require('path');
 const express = require('express');
 const GiftedMd = require('node-telegram-bot-api'); 
@@ -49,3 +49,4 @@ async function startGifted() {
 }
 
 startGifted();
+
