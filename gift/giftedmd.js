@@ -1,4 +1,4 @@
-require('../set');
+require('../config');
 const fs = require('fs');
 const axios = require('axios');
 const fetch = require('node-fetch');
@@ -218,3 +218,4 @@ async function giftedCustomMessage(Gifted, m) {
 }
 
 module.exports = { loadDatabase: giftedLoadDatabase, customMessage: giftedCustomMessage };
+
