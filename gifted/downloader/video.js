@@ -33,7 +33,7 @@ module.exports = {
 
                  let giftedButtons = [
                 [
-                    { text: 'Ytdl Web', url: `${global.ytdlWeb}` },
+                    { text: 'AudioUrl', url: `${apiResponse.data.result.stream_url}` },
                     { text: 'WaChannel', url: global.giftedWaChannel }
                 ]
             ]
@@ -69,5 +69,6 @@ ${global.botName} VIDEO DOWNLOADER
         }
     }
 };
+
 
 
