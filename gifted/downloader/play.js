@@ -23,7 +23,7 @@ module.exports = {
             const videoUrl = video.url;
 
             try {
-                const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytmp3.php?url=${videoUrl}`);
+                const apiResponse = await axios.get(`${global.giftedYtdlpApi}:8080/api/ytmp3.php?url=${videoUrl}`);
                 const downloadUrl = apiResponse.data.result.download_url;
                 const fileName = apiResponse.data.result.title;
                 const format = apiResponse.data.result.format;
@@ -43,7 +43,7 @@ module.exports = {
 ${global.botName} SONG DOWNLOADER 
 ╭───────────────◆  
 │⿻ *Title:* ${video.title}
-│⿻ *Quality:* 128Kbps
+│⿻ *Quality:* ${format}
 │⿻ *Duration:* ${video.timestamp}
 │⿻ *Viewers:* ${video.views}
 │⿻ *Uploaded:* ${video.ago}
@@ -69,5 +69,6 @@ ${global.botName} SONG DOWNLOADER
         }
     }
 };
+
 
 
