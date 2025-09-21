@@ -247,7 +247,7 @@ async function giftedCustomMessage(Gifted, m) {
                     throw new Error('Unsupported content type');
             }
             
-            console.log(`File sent successfully: ${fileType}`);
+          //  console.log(`File sent successfully: ${fileType}`);
             return result;
             
         } catch (error) {
@@ -268,7 +268,7 @@ async function giftedCustomMessage(Gifted, m) {
             if (filePath && fs.existsSync(filePath)) {
                 try {
                     fs.unlinkSync(filePath);
-                    console.log(`Temp file cleaned up: ${filePath}`);
+                  //  console.log(`Temp file cleaned up: ${filePath}`);
                 } catch (err) {
                     console.error(`Failed to delete temp file: ${filePath}`, err);
                 }
@@ -278,3 +278,4 @@ async function giftedCustomMessage(Gifted, m) {
 }
 
 module.exports = { loadDatabase: giftedLoadDatabase, customMessage: giftedCustomMessage };
+
