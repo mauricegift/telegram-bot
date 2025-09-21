@@ -17,12 +17,12 @@ global.giftedRepo = "https://github.com/mauricegift/telegram-bot";
 global.giftedApiRepo = "https://api.github.com/repos/mauricegift/telegram-bot";
 
 global.giftechMess = {
-    internalerr: 'Internal Server Error!',
-    owner: 'Owner-Only Feature!',
-    group: 'Use in a Group!',
-    private: 'Use in a Private Chat!',
+    internalerr: 'Internal Server Error',
+    owner: 'Owner-Only Feature',
+    group: 'Use in a Group',
+    private: 'Use in a Private Chat',
     wait: 'Please Wait...',
-    done: 'Completed Successfully!',
+    done: 'Completed Successfully',
     error: 'Oops, an Error Occurred'
 };
 
