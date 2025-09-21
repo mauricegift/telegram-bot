@@ -6,6 +6,7 @@ module.exports = {
 
         if (!text) return Gifted.reply({ text: `Provide an App Name ie ${global.prefix}apk Facebook Lite` }, m);
         Gifted.reply({ text: giftechMess.wait }, m);
+        let giftedButtons;
 
         try {
             const giftedAppData = await GiftedApkDl(text);
@@ -13,7 +14,7 @@ module.exports = {
                 return Gifted.reply({ text: 'Failed to fetch app data.' }, m);
             }
 
-            let giftedButtons = [
+            giftedButtons = [
                 [
                     { text: 'App Link', url: `${giftedAppData.link}` },
                     { text: 'WaChannel', url: global.giftedWaChannel }
@@ -32,3 +33,4 @@ module.exports = {
         }
     }
 };
+
