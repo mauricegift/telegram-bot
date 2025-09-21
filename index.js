@@ -17,8 +17,10 @@ app.listen(port, () => console.log(`App running on port ${port}`));
 
 async function startGifted() {
     if (!Gifted) {
-        Gifted = new GiftedMd(`${global.botToken}`, { polling: true });
-
+        Gifted = new GiftedMd(`${global.botToken}`, {
+          polling: true,
+          baseApiUrl: "http://tg-api.giftedtech.co.ke"
+        });
         console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Gifted Md Connected '));
         const miscInfo = await Gifted.getMe();
         console.log(chalk.white.bold('—————————————————'));
@@ -49,4 +51,5 @@ async function startGifted() {
 }
 
 startGifted();
+
 
