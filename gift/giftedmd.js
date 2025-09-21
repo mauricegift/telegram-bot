@@ -72,10 +72,10 @@ async function giftedCustomMessage(Gifted, m) {
                 }
             }
             
-            if (m.message_id) {
+            if (m && m.message_id) {
                 content.reply_to_message_id = m.message_id;
             } else {
-                content.reply_to_message_id = null
+                content.reply_to_message_id = null;
             }
             
             if (buttons.length > 0) {
@@ -112,6 +112,7 @@ async function giftedCustomMessage(Gifted, m) {
         let filePath = null;
         try {
             let buttons = [];
+            let content = { ...data };
             
             if (typeof buttonsOrMsg === 'object') {
                 if (Array.isArray(buttonsOrMsg)) {
@@ -143,80 +144,131 @@ async function giftedCustomMessage(Gifted, m) {
                 } else if (buttonsOrMsg.chat && buttonsOrMsg.message_id) {
                     m = buttonsOrMsg;
                 } else {
-                    data = { ...data, ...buttonsOrMsg };
+                    content = { ...content, ...buttonsOrMsg };
                 }
             }
             
-            if (m.message_id) {
-                data.reply_to_message_id = m.message_id;
+            if (m && m.message_id) {
+                content.reply_to_message_id = m.message_id;
             } else {
-                data.reply_to_message_id = null
+                content.reply_to_message_id = null;
             }
             
             if (buttons.length > 0) {
-                data.reply_markup = { inline_keyboard: buttons };
+                content.reply_markup = { inline_keyboard: buttons };
             }
             
-            const type = Object.keys(data)[0];
-            const url = data[type];
-            const customFileName = data.fileName || `${Date.now()}`;
-    
-            const ext = path.extname(url).split('?')[0] || '';
-            const fileName = `${customFileName}${ext}`;
-            filePath = path.resolve(__dirname, '..', 'temp', fileName);
-
+            let downloadUrl, fileType, fileName;
+            
+            if (content.audio) {
+                downloadUrl = content.audio;
+                fileType = 'audio';
+                fileName = content.fileName || `audio_${Date.now()}.mp3`;
+            } else if (content.video) {
+                downloadUrl = content.video;
+                fileType = 'video';
+                fileName = content.fileName || `video_${Date.now()}.mp4`;
+            } else if (content.image) {
+                downloadUrl = content.image;
+                fileType = 'image';
+                fileName = content.fileName || `image_${Date.now()}.jpg`;
+            } else if (content.document) {
+                downloadUrl = content.document;
+                fileType = 'document';
+                fileName = content.fileName || `document_${Date.now()}`;
+            } else {
+                throw new Error('No valid content type specified. Use audio, video, image, or document');
+            }
+            
+            if (!path.extname(fileName)) {
+                const ext = path.extname(downloadUrl.split('?')[0]) || 
+                           (fileType === 'audio' ? '.mp3' : 
+                            fileType === 'video' ? '.mp4' : 
+                            fileType === 'image' ? '.jpg' : '');
+                fileName += ext;
+            }
+            
+            fileName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+            
             const tempDir = path.resolve(__dirname, '..', 'temp');
             if (!fs.existsSync(tempDir)) {
                 fs.mkdirSync(tempDir, { recursive: true });
             }
-    
-            // Download file with better error handling
+            
+            filePath = path.resolve(tempDir, fileName);
+            
+            // console.log(`Downloading ${fileType} from: ${downloadUrl}`);
             const response = await axios({
-                url,
+                url: downloadUrl,
                 method: 'GET',
                 responseType: 'stream',
-                timeout: 60000, // 1 minute timeout
-                validateStatus: function (status) {
-                    return status >= 200 && status < 300; // Only accept 2xx status codes
-                }
+                timeout: 720000, // 12 minutes timeout
+                validateStatus: (status) => status >= 200 && status < 300
             });
-    
+            
             const writer = fs.createWriteStream(filePath);
             response.data.pipe(writer);
-    
+            
             await new Promise((resolve, reject) => {
                 writer.on('finish', resolve);
                 writer.on('error', reject);
                 response.data.on('error', reject);
             });
-    
+            
             if (!fs.existsSync(filePath) || fs.statSync(filePath).size === 0) {
                 throw new Error('Downloaded file is empty or does not exist');
             }
-    
+            
+          //  console.log(`File downloaded successfully: ${filePath} (${fs.statSync(filePath).size} bytes)`);
+            
+            const sendOptions = {
+                caption: content.caption,
+                parse_mode: content.parse_mode,
+                reply_markup: content.reply_markup,
+                reply_to_message_id: content.reply_to_message_id
+            };
+            
+            // Send the file based on type
             let result;
-            if (data.image) {
-                result = await Gifted.sendPhoto(m.chat.id, filePath, data);
-            } else if (data.video) {
-                result = await Gifted.sendVideo(m.chat.id, filePath, data);
-            } else if (data.audio) {
-                result = await Gifted.sendAudio(m.chat.id, filePath, data);
-            } else if (data.document) {
-                result = await Gifted.sendDocument(m.chat.id, filePath, data);
-            } else {
-                throw new Error('Unsupported content type.');
+            switch (fileType) {
+                case 'audio':
+                    result = await Gifted.sendAudio(m.chat.id, filePath, sendOptions);
+                    break;
+                case 'video':
+                    result = await Gifted.sendVideo(m.chat.id, filePath, sendOptions);
+                    break;
+                case 'image':
+                    result = await Gifted.sendPhoto(m.chat.id, filePath, sendOptions);
+                    break;
+                case 'document':
+                    result = await Gifted.sendDocument(m.chat.id, filePath, sendOptions);
+                    break;
+                default:
+                    throw new Error('Unsupported content type');
             }
             
+            console.log(`File sent successfully: ${fileType}`);
             return result;
+            
         } catch (error) {
             console.error(`Error in downloadAndSend: ${error.message}`);
-            await Gifted.sendMessage(m.chat.id, `Failed to send message: ${error.message}`, {});
-            throw error; // Re-throw to let caller handle it
+            console.error(error.stack);
+            
+            if (m && m.chat && m.chat.id) {
+                try {
+                    await Gifted.sendMessage(m.chat.id, `Failed to send ${fileType}: ${error.message}`, {});
+                } catch (sendError) {
+                    console.error('Failed to send error message:', sendError.message);
+                }
+            }
+            
+            throw error;
         } finally {
             // Clean up the downloaded file
             if (filePath && fs.existsSync(filePath)) {
                 try {
                     fs.unlinkSync(filePath);
+                    console.log(`Temp file cleaned up: ${filePath}`);
                 } catch (err) {
                     console.error(`Failed to delete temp file: ${filePath}`, err);
                 }
