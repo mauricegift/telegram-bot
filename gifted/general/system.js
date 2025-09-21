@@ -76,9 +76,9 @@ let Giftedd = async (m, { Gifted, plugins, prefix, ownerUsername, botVersion, ti
   ];
 
   const giftedMess = `
-⧫️───────────────────⧫️
+⧫️───────────────⧫️
     *BOT SYSTEM STATUS*
-⧫️───────────────────⧫️
+⧫️───────────────⧫️
 
 🚅 *Prefix:*  [ ${global.prefix} ]
 👮 *Owner:*  @${global.ownerUsername}
@@ -91,7 +91,7 @@ let Giftedd = async (m, { Gifted, plugins, prefix, ownerUsername, botVersion, ti
 🏞 *Time Zone:* ${global.timeZone}
 💻 *RAM Usage:* ${ram}
 
-⧫️───────────────────⧫️`;
+⧫️───────────────⧫️`;
 
   await Gifted.reply({ image: { url: `${global.botPic}` }, caption: giftedMess, parse_mode: 'Markdown' }, giftedButtons, m);
 };
@@ -101,3 +101,4 @@ Giftedd.desc = 'Display Bot System Status';
 Giftedd.category = ['general'];
 
 module.exports = Giftedd;
+
