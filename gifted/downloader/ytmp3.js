@@ -9,6 +9,7 @@ module.exports = {
         if (!text) return Gifted.reply({ text: `Usage: ${global.prefix}ytmp3 https://youtu.be/60ItHLz5WEA?feature=shared` }, m);
 
         Gifted.reply({ text: giftechMess.wait }, m);
+        let giftedButtons;
 
         try {
             const videoUrl = Array.isArray(text) ? text.join(" ") : text;
@@ -24,7 +25,7 @@ module.exports = {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
                 }
 
-                 let giftedButtons = [
+                giftedButtons = [
                 [
                     { text: 'Audio Url', url: `${apiResponse.data.result.stream_url}` },
                     { text: 'WaChannel', url: global.giftedWaChannel }
@@ -64,5 +65,6 @@ ${global.botName} SONG DOWNLOADER
         }
     }
 };
+
 
 
