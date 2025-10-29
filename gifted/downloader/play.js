@@ -24,10 +24,10 @@ module.exports = {
             const videoUrl = video.url;
 
             try {
-                const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/audio.php?url=${videoUrl}`);
-                const downloadUrl = apiResponse.data.result.download_url;
-                const fileName = apiResponse.data.result.title;
-                const format = apiResponse.data.result.format;
+              const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytdla.php?url=${videoUrl}`);
+              const downloadUrl = apiResponse.data.result.download_url;
+              const fileName = apiResponse.data.result.title || video.title;
+              const format = apiResponse.data.result.quality || '128kbps';
 
                 if (!downloadUrl) {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
@@ -35,7 +35,7 @@ module.exports = {
 
               giftedButtons = [
                 [
-                    { text: 'Audio Url', url: `${apiResponse.data.result.stream_url}` },
+                    { text: 'Audio Url', url: `${apiResponse.data.result.download_url}` },
                     { text: 'WaChannel', url: global.giftedWaChannel }
                 ]
             ]
@@ -59,7 +59,7 @@ ${global.botName} SONG DOWNLOADER
 
                 await Gifted.reply({ image: { url: video.thumbnail }, caption: giftedMess, parse_mode: 'Markdown' }, giftedButtons, m);
 
-                Gifted.downloadAndSend({ audio: downloadUrl, fileName: fileName, caption: giftechMess.done }, giftedButtons, m);
+                Gifted.downloadAndSend({ audio: downloadUrl, fileName: FileName, caption: giftechMess.done }, giftedButtons, m);
             } catch (e) {
                 console.error('API Error:', e);
                 return Gifted.reply({ text: 'Failed to fetch download link from API.' }, giftedButtons, m);
@@ -70,6 +70,7 @@ ${global.botName} SONG DOWNLOADER
         }
     }
 };
+
 
 
 
