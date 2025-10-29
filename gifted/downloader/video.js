@@ -23,18 +23,18 @@ module.exports = {
             const video = searchResults.videos[0];
             const videoUrl = video.url;
             try {
-                const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/video.php?url=${videoUrl}`);
-                const downloadUrl = apiResponse.data.result.download_url;
-                const fileName = apiResponse.data.result.title;
-                const format = apiResponse.data.result.format;
+              const apiResponse = await axios.get(`${global.giftedYtdlpApi}/api/ytdlv.php?url=${videoUrl}`);
+              const downloadUrl = apiResponse.data.result.download_url;
+              const fileName = apiResponse.data.result.title || video.title;
+              const format = apiResponse.data.result.quality || '720p';
 
                 if (!downloadUrl) {
                     return Gifted.reply({ text: 'Failed to retrieve download link.' }, m);
                 }
 
-               giftedButtons = [
+              giftedButtons = [
                 [
-                    { text: 'AudioUrl', url: `${apiResponse.data.result.stream_url}` },
+                    { text: 'Video Url', url: `${apiResponse.data.result.download_url}` },
                     { text: 'WaChannel', url: global.giftedWaChannel }
                 ]
             ]
@@ -70,6 +70,7 @@ ${global.botName} VIDEO DOWNLOADER
         }
     }
 };
+
 
 
 
