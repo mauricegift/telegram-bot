@@ -59,7 +59,7 @@ ${global.botName} SONG DOWNLOADER
 
                 await Gifted.reply({ image: { url: video.thumbnail }, caption: giftedMess, parse_mode: 'Markdown' }, giftedButtons, m);
 
-                Gifted.downloadAndSend({ audio: downloadUrl, fileName: FileName, caption: giftechMess.done }, giftedButtons, m);
+                Gifted.downloadAndSend({ audio: downloadUrl, fileName: fileName, caption: giftechMess.done }, giftedButtons, m);
             } catch (e) {
                 console.error('API Error:', e);
                 return Gifted.reply({ text: 'Failed to fetch download link from API.' }, giftedButtons, m);
@@ -70,6 +70,7 @@ ${global.botName} SONG DOWNLOADER
         }
     }
 };
+
 
 
 
