@@ -19,7 +19,7 @@ async function startGifted() {
     if (!Gifted) {
         Gifted = new GiftedMd(`${global.botToken}`, {
           polling: true,
-          baseApiUrl: "http://tg-api.giftedtech.co.ke"
+          baseApiUrl: "http://77.237.235.216:1500"
         });
         console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Gifted Md Connected '));
         const miscInfo = await Gifted.getMe();
@@ -51,5 +51,6 @@ async function startGifted() {
 }
 
 startGifted();
+
 
 
