@@ -19,7 +19,7 @@ module.exports = {
             const fileId = m.reply_to_message.photo[m.reply_to_message.photo.length - 1].file_id;
             const fileDetails = await Gifted.getFile(fileId);
             console.log(fileDetails);
-            const fileLink = `http://77.237.235.216:1500/file/bot${global.botToken}/${fileDetails.file_path}`;
+            const fileLink = `https://api.telegram.org/file/bot${global.botToken}/${fileDetails.file_path}`;
             const encodedFileLink = encodeURIComponent(fileLink);
             console.log(encodedFileLink);
             const apiResponse = await axios.get(
