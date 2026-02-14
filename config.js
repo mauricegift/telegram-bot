@@ -1,31 +1,41 @@
-global.prefix = '/'; // Set Your Preferred Prefix
-global.botName = 'GIFTED-MD'; // Bot Name
-global.botVersion = '2.0.2';
-global.botPic = 'https://files.giftedtech.web.id/file/gifted-md.jpg'; // Can use path, can also use link
-global.botToken = '7267479440:AAFUOGy7mqGNCI8klIkOqb0QzYoYCQ9o8Rw'; // Replace With Your Bot Token (Get it from BotFather)
-global.ownerUsername = 'mauricegift'; // Replace With Your Telegram Username(For Bot Owner)
-global.timeZone = 'Africa/Nairobi'; // Your Time Zone
-global.ownerId = [8084255827]; // Replace With Your Owner Chat ID(For Bot Owner), You Can Add More than 1
-global.footer = '*Powered by GiftedTech*';
-global.ytdlWeb = 'https://youtube.giftedtech.web.id';
-global.giftedYtdlpApi = 'https://ytapi.giftedtech.co.ke';
-global.giftedApi = 'https://api.giftedtech.co.ke/api'; // Gifted Api
-global.giftedKey = 'gifted'; // Gifted Api Key
-global.lyffeApi = 'https://levanter.onrender.com'; // Lyffe Api
-global.giftedWaChannel = 'https://whatsapp.com/channel/0029Vb3hlgX5kg7G0nFggl0Y';
-global.giftedRepo = "https://github.com/mauricegift/telegram-bot";
-global.giftedApiRepo = "https://api.github.com/repos/mauricegift/telegram-bot";
+const fs = require("fs-extra");
+const path = require("path");
 
-global.giftechMess = {
-    internalerr: 'Internal Server Error!',
-    owner: 'Owner-Only Feature!',
-    group: 'Use in a Group!',
-    private: 'Use in a Private Chat!',
-    wait: 'Please Wait...',
-    done: 'Completed Successfully!',
-    error: 'Oops, an Error Occurred'
+if (fs.existsSync(".env")) {
+  require("dotenv").config({ path: path.join(__dirname, ".env") });
+}
+
+const config = {
+  token:
+    process.env.BOT_TOKEN || "7517934475:AAEUcpC0gUUDmtCttrsvUUZhROF4SJ9sGI4",
+  owner_id: process.env.OWNER_ID || "5153324742",
+  prefix: process.env.PREFIX || "/",
+  timezone: process.env.TIMEZONE || "Africa/Nairobi",
+  botName: process.env.BOT_NAME || "GIFTED-MD",
+  ownerName: process.env.OWNER_NAME || "Maurice Gift",
+  ownerUsername: process.env.OWNER_USERNAME || "mauricegift",
+  artistName: process.env.ARTIST_NAME || "Powered by Gifted Apis",
+
+  url: process.env.URL || "https://gitcdn.giftedtech.co.ke/image/AZO_image.jpg",
+  sourceUrl:
+    process.env.SOURCE_URL || "https://github.com/mauricegift/telegram-bot",
+
+  greetNewMembers: {
+    enabled: process.env.GREET_ENABLED !== "false",
+    gifUrl: process.env.GIF_URL || "https://files.catbox.moe/pm9x7c.gif",
+  },
+
+  antiLink: {
+    enabled: process.env.ANTILINK !== "false",
+  },
 };
 
-String.prototype.capitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-};
+const currentFile = require.resolve(__filename);
+fs.watchFile(currentFile, () => {
+  fs.unwatchFile(currentFile);
+  console.log(`Updating ${path.basename(__filename)}`);
+  delete require.cache[currentFile];
+  require(currentFile);
+});
+
+module.exports = config;
