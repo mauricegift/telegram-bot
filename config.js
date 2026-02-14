@@ -7,8 +7,8 @@ if (fs.existsSync(".env")) {
 
 const config = {
   token:
-    process.env.BOT_TOKEN || "7517934475:AAEUcpC0gUUDmtCttrsvUUZhROF4SJ9sGI4",
-  owner_id: process.env.OWNER_ID || "5153324742",
+    process.env.BOT_TOKEN || "", // Your bot token
+  owner_id: process.env.OWNER_ID || "", // your telegram chat id
   prefix: process.env.PREFIX || "/",
   timezone: process.env.TIMEZONE || "Africa/Nairobi",
   botName: process.env.BOT_NAME || "GIFTED-MD",
