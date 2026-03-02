@@ -9,7 +9,7 @@ const Gifted = new GiftedMd(config.token, {
     autoStart: true,
     params: { timeout: 30 }
   },
-  baseApiUrl: "http://161.97.90.101:1500"
+   baseApiUrl: "https://giftedtech-tgbotapi.hf.space" // Bypassing 50Mb file size limit
 });
 
 loadCommands();
