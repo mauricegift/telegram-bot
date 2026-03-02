@@ -152,19 +152,23 @@ async function tryDownloadWithFallback(apis, videoUrl, fileType) {
 }
 
 const AUDIO_APIS = [
+    (url) => `https://api.giftedtech.co.ke/api/download/ytmp3v2?apikey=gifted&url=${encodeURIComponent(url)}`,
+    (url) => `https://api.giftedtech.co.ke/api/download/ytaudio?apikey=gifted&url=${encodeURIComponent(url)}`,
     (url) => `https://api.giftedtech.co.ke/api/download/yta?apikey=gifted&url=${encodeURIComponent(url)}`,
+    (url) => `https://api.giftedtech.co.ke/api/download/dlmp3?apikey=gifted&url=${encodeURIComponent(url)}`,
     (url) => `https://api.giftedtech.co.ke/api/download/ytmp3?apikey=gifted&url=${encodeURIComponent(url)}`,
     (url) => `https://api.giftedtech.co.ke/api/download/savetubemp3?apikey=gifted&url=${encodeURIComponent(url)}`,
-    (url) => `https://api.giftedtech.co.ke/api/download/dlmp3?apikey=gifted&url=${encodeURIComponent(url)}`,
     (url) => `https://api.giftedtech.co.ke/api/download/savemp3?apikey=gifted&url=${encodeURIComponent(url)}`
 ];
 
 const VIDEO_APIS = [
+    (url) => `https://api.giftedtech.co.ke/api/download/ytmp4v2?apikey=gifted&url=${encodeURIComponent(url)}`,
+    (url) => `https://api.giftedtech.co.ke/api/download/ytvideo?apikey=gifted&url=${encodeURIComponent(url)}`,
     (url) => `https://api.giftedtech.co.ke/api/download/ytv?apikey=gifted&url=${encodeURIComponent(url)}`,
-    (url) => `https://api.giftedtech.co.ke/api/download/ytmp4?apikey=gifted&quality=720p&url=${encodeURIComponent(url)}`,
-    (url) => `https://api.giftedtech.co.ke/api/download/savetubemp4?apikey=gifted&url=${encodeURIComponent(url)}`,
     (url) => `https://api.giftedtech.co.ke/api/download/dlmp4?apikey=gifted&url=${encodeURIComponent(url)}`,
-    (url) => `https://api.giftedtech.co.ke/api/download/savemp4?apikey=gifted&quality=720&url=${encodeURIComponent(url)}`
+    (url) => `https://api.giftedtech.co.ke/api/download/ytmp4?apikey=gifted&url=${encodeURIComponent(url)}`,
+    (url) => `https://api.giftedtech.co.ke/api/download/savetubemp4?apikey=gifted&url=${encodeURIComponent(url)}`,
+    (url) => `https://api.giftedtech.co.ke/api/download/savemp4?apikey=gifted&url=${encodeURIComponent(url)}`
 ];
 
 function bufferToStream(buffer) {
