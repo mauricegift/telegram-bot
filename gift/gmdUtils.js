@@ -63,7 +63,7 @@ function copyFolderSync(source, target) {
         const srcPath = path.join(source, item);
         const destPath = path.join(target, item);
 
-        if (item === "set.js" || item === ".env" || item === "app.json" || item === "config.js") {
+        if (item === ".env") {
             continue;
         }
 
