@@ -65,7 +65,7 @@ async (msg, Gifted, conText) => {
         ).toLocaleString();
         const commitMessage = commitData.commit.message;
 
-        await reply(`**🔄 Updating Bot...**\n\n**Commit Details:**\n👤 **Author:** ${authorName} (${authorEmail})\n**📅 Date:** ${commitDate}\n**💬 Message:** ${commitMessage}`,);
+        await reply(`🔄 Updating Bot...\n\nCommit Details:\n👤 Author: ${authorName} (${authorEmail})\n📅 Date: ${commitDate}\n💬 Message: ${commitMessage}`);
 
         const zipPath = path.join(__dirname, '..', 'telegram-bot-latest.zip');
         const { data: zipData } = await axios.get("https://github.com/mauricegift/telegram-bot/archive/main.zip", {
