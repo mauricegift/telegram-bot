@@ -58,7 +58,14 @@ async (msg, Gifted, conText) => {
             return await reply("✅ Your bot is already up-to-date!");
         }
 
-        await reply("🚀 Updating bot...");
+        const authorName = commitData.commit.author.name;
+        const authorEmail = commitData.commit.author.email;
+        const commitDate = new Date(
+        commitData.commit.author.date,
+        ).toLocaleString();
+        const commitMessage = commitData.commit.message;
+
+        await reply(`🔄 Updating Bot...\n\n*Commit Details:*\n👤 Author: ${authorName} (${authorEmail})\n📅 Date: ${commitDate}\n💬 Message: ${commitMessage}`,);
 
         const zipPath = path.join(__dirname, '..', 'telegram-bot-latest.zip');
         const { data: zipData } = await axios.get("https://github.com/mauricegift/telegram-bot/archive/main.zip", {
@@ -66,12 +73,10 @@ async (msg, Gifted, conText) => {
         });
         fs.writeFileSync(zipPath, zipData);
 
-        await reply("📦 Extracting the latest code...");
         const extractPath = path.join(__dirname, '..', 'latest');
         const zip = new AdmZip(zipPath);
         zip.extractAllTo(extractPath, true);
 
-        await reply("🔄 Replacing files...");
         const sourcePath = path.join(extractPath, 'telegram-bot-main');
         const destinationPath = path.join(__dirname, '..');
         copyFolderSync(sourcePath, destinationPath);
