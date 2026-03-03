@@ -44,7 +44,7 @@ async (msg, Gifted, conText) => {
     try {
         await reply("🔍 Checking for new updates...");
 
-        const { data: commitData } = await axios.get("https://api.github.com/repos/mauricegift/gifted-md/commits/main");
+        const { data: commitData } = await axios.get("https://api.github.com/repos/mauricegift/telegram-bot/commits/main");
         const latestCommitHash = commitData.sha;
 
         const commitFile = path.join(__dirname, '..', 'current_commit.txt');
@@ -61,7 +61,7 @@ async (msg, Gifted, conText) => {
         await reply("🚀 Updating bot...");
 
         const zipPath = path.join(__dirname, '..', 'telegram-bot-latest.zip');
-        const { data: zipData } = await axios.get("https://github.com/mauricegift/gifted-md/archive/main.zip", {
+        const { data: zipData } = await axios.get("https://github.com/mauricegift/telegram-bot/archive/main.zip", {
             responseType: "arraybuffer"
         });
         fs.writeFileSync(zipPath, zipData);
