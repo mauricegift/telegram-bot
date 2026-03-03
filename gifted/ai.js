@@ -25,6 +25,7 @@ gmd(
             await Gifted.sendChatAction(conText.chatId, "typing");
 
             const api = `${config.apiUrl}/api/ai/ai?apikey=${config.apiKey}&q=${encodeURIComponent(q)}`;
+            console.log(api);
             const response = await axios.get(api, { timeout: 30000 });
             const data = response.data;
 
