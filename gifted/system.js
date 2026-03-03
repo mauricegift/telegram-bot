@@ -47,7 +47,7 @@ async (msg, Gifted, conText) => {
         const { data: commitData } = await axios.get("https://api.github.com/repos/mauricegift/telegram-bot/commits/main");
         const latestCommitHash = commitData.sha;
 
-        const commitFile = path.join(__dirname, '..', 'gift' 'current_commit.txt');
+        const commitFile = path.join(__dirname, '..', 'gift', 'current_commit.txt');
         let currentHash = '';
 
         if (fs.existsSync(commitFile)) {
