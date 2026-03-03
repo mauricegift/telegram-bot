@@ -8,7 +8,7 @@ const ram = `${formatBytes(os.freemem())}/${formatBytes(os.totalmem())}`;
 
 gmd({
     pattern: "menu",
-    aliases: ["help", "cmd", "allmenu"],
+    aliases: ["help", "cmd", "allmenu", "start"],
     react: "👀",
     category: "general",
     description: "Show all commands",
