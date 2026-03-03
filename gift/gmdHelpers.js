@@ -92,7 +92,7 @@ async function downloadToFile(downloadUrl, fileType) {
     const extension = fileType === 'audio' ? '.mp3' : '.mp4';
     const filePath = path.resolve(tempDir, `dl_${Date.now()}${extension}`);
 
-    console.log(`Downloading ${fileType} from: ${downloadUrl}`);
+   // console.log(`Downloading ${fileType} from: ${downloadUrl}`);
 
     const response = await axios({
         url: downloadUrl,
@@ -119,7 +119,7 @@ async function downloadToFile(downloadUrl, fileType) {
     }
 
     const sizeMB = (stat.size / (1024 * 1024)).toFixed(1);
-    console.log(`Downloaded ${sizeMB} MB`);
+  //  console.log(`Downloaded ${sizeMB} MB`);
     return filePath;
 }
 
@@ -127,21 +127,21 @@ async function tryDownloadWithFallback(apis, videoUrl, fileType) {
     for (let i = 0; i < apis.length; i++) {
         const apiUrl = apis[i](videoUrl);
         try {
-            console.log(`Trying API ${i + 1}/${apis.length}`);
+          //  console.log(`Trying API ${i + 1}/${apis.length}`);
             const response = await axios.get(apiUrl, { timeout: 30000 });
             const data = response.data;
 
             if (!data.success || !data.result || !data.result.download_url) {
-                console.log(`API ${i + 1} returned no download_url, trying next...`);
+             //   console.log(`API ${i + 1} returned no download_url, trying next...`);
                 continue;
             }
 
-            console.log(`API ${i + 1} succeeded, downloading file...`);
+          //  console.log(`API ${i + 1} succeeded, downloading file...`);
             try {
                 const filePath = await downloadToFile(data.result.download_url, fileType);
                 return { filePath, data };
             } catch (dlErr) {
-                console.log(`API ${i + 1} download failed: ${dlErr.message}, trying next...`);
+              //  console.log(`API ${i + 1} download failed: ${dlErr.message}, trying next...`);
                 continue;
             }
         } catch (err) {
