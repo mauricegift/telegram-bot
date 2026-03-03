@@ -1,0 +1,21 @@
+{
+    "name": "telegram-md",
+    "description": "Gifted-Md, A simple Telegram user bot Created by Gifted Tech",
+    "logo": "https://github.com/mauricegift.png",
+    "repository": "https://github.com/mauricegift/telegram-bot",
+    "keywords": ["telegram-bot", "gifted-api", "multi device"],
+    "success_url": "/", 
+    "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
+    "env": {      
+      "OWNER_ID": {
+        "description": "Your telegram owner ID",
+        "value": "",
+        "required": true 
+      },
+      "BOT_TOKEN": {
+        "description": "Your telegram bot token",
+        "value": "",
+        "required": true 
+      }
+    }   
+}
