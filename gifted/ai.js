@@ -1,4 +1,5 @@
 const { gmd } = require("../gift");
+const config = require('../config');
 const { axios } = require("../gift/gmdHelpers");
 
 gmd(
@@ -23,7 +24,7 @@ gmd(
         try {
             await Gifted.sendChatAction(conText.chatId, "typing");
 
-            const apiUrl = `https://api.giftedtech.co.ke/api/ai/ai?apikey=gifted&q=${encodeURIComponent(q)}`;
+            const apiUrl = `${config.apiUrl}/api/ai/ai?apikey=${config.apiKey}&q=${encodeURIComponent(q)}`;
             const response = await axios.get(apiUrl, { timeout: 30000 });
             const data = response.data;
 
