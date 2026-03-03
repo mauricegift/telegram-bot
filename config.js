@@ -6,19 +6,18 @@ if (fs.existsSync(".env")) {
 }
 
 const config = {
-  token:
-    process.env.BOT_TOKEN || "", // Your bot token
-  owner_id: process.env.OWNER_ID || "", // your telegram chat id
-  prefix: process.env.PREFIX || "/",
-  timezone: process.env.TIMEZONE || "Africa/Nairobi",
+  token: process.env.BOT_TOKEN || "", // Your bot token
+  owner_id: process.env.OWNER_ID || "", // Your telegram chat id
+  prefix: process.env.PREFIX || "/", // Your preferred prefix
+  apiKey: process.env.API_KEY || "gifted", //Replace with yours
   botName: process.env.BOT_NAME || "GIFTED-MD",
+  timezone: process.env.TIMEZONE || "Africa/Nairobi",
   ownerName: process.env.OWNER_NAME || "Maurice Gift",
   ownerUsername: process.env.OWNER_USERNAME || "mauricegift",
+  apiUrl: process.env.API_URL || "https://api.giftedtech.co.ke",
   artistName: process.env.ARTIST_NAME || "Powered by Gifted Apis",
-
   url: process.env.URL || "https://gitcdn.giftedtech.co.ke/image/AZO_image.jpg",
-  sourceUrl:
-    process.env.SOURCE_URL || "https://github.com/mauricegift/telegram-bot",
+  sourceUrl: process.env.SOURCE_URL || "https://github.com/mauricegift/telegram-bot",
 
   greetNewMembers: {
     enabled: process.env.GREET_ENABLED !== "false",
