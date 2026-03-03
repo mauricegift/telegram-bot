@@ -9,6 +9,7 @@
 
 ## Features
 
+- **2GB file size limit**: The bot can download and send files of up to 2Gb in size.
 - **Respond to Specific Commands**: The bot listens and responds to user-defined commands.
 - **Integration with External Services or APIs**: Connect the bot with various external services for extended functionality.
 - **Interactive User Interface**: Provides an intuitive interface for easy user interaction.
@@ -19,26 +20,23 @@
 
 - Telegram account
 - Telegram Bot Token
-- Telegram Bot User ID(uid)
+- Telegram User ID(uid)
 - **[`HERE IS`](https://github.com/mauricegift/telegram-bot/blob/main/gift/bot-token-and-uid.md) How to get your BOT TOKEN and BOT UID**
 
-- **First [Fork Repo](https://github.com/mauricegift/telegram-bot/fork) to obtain your editable repo.**
-
 ### Configure the Bot:
-   - Ensure you **[Fork Repo](https://github.com/mauricegift/telegram-bot/fork)** first.
+   - Ensure you **[Fork Repo](https://github.com/mauricegift/telegram-bot/fork)** first(not a must).
 
-   - There's a set.js.
-   - Navigate to it and Add your bot token, bot user ID(id) and other settings:
+   - Rename .example.env to .env and add your details or edit from config.js.
      ```
-     "ownerId": bot owner user id
+     OWNER_ID=
      ```
      ```
-     "botToken": "bot token "
+     BOT_TOKEN=
      ```
 
 ### Deployment
 
-- **Deploy on [HEROKU](https://github.com/mauricegift/telegram-bot/blob/main/gift/heroku.md)**
+- **Deploy on [HEROKU](https://dashboard.heroku.com/new?template=https://github.com/mauricegift/telegram-bot)**
 
 - **Deploy on [RENDER](https://dashboard.render.com/new)**
   
@@ -56,10 +54,10 @@ To interact with the bot, users can send commands and messages. The bot will res
 
 
 
-- I'll always be adding more commands, features and making general updates so always check✅ out and sync your forks to stay updated.
+- I'll always be adding more commands, features, changing general bot structure and making general updates so always check✅ out and sync your forks to stay updated.
 
 ### INCASE OF ISSUES ###
- - [CONTACT OWNER](t.me/mauricegift)
+ - [CONTACT OWNER](https://api.giftedtech.co.ke/contact)
 
        ©𝟮𝟬𝟮𝟰-2026 𝗚𝗜𝗙𝗧𝗘𝗗 𝗧𝗘𝗖𝗛
 
