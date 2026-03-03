@@ -6,6 +6,7 @@ const { exec } = require('child_process');
 const { Readable } = require('stream');
 const FormData = require('form-data');
 const execAsync = util.promisify(exec);
+const config = require('../config');
 
 const tempDir = path.resolve(__dirname, '..', 'temp');
 if (!fs.existsSync(tempDir)) {
