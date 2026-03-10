@@ -172,7 +172,26 @@ const VIDEO_APIS = [
     (url) => `${config.apiUrl}/api/download/savemp4?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`
 ];
 
-const YTSEARCH_API = 'https://yts.giftedtech.co.ke'; // Huggingface gets blocked buy Youtube so yt-search is useless
+const GIFTED_YTS_API = 'https://yts.giftedtech.co.ke';
+
+async function searchGiftedTechYts(query) {
+    try {
+        const response = await axios.get(`${GIFTED_YTS_API}/`, {
+            params: { q: query },
+            timeout: 10000
+        });
+        
+        if (response.data && response.data.videos && response.data.videos.length > 0) {
+            const videos = response.data.videos.filter(v => v.type === 'video');
+            return videos;
+        }
+        return [];
+    } catch (error) {
+        console.error('GiftedTechYts error:', error.message);
+        return [];
+    }
+}
+
 
 function bufferToStream(buffer) {
     const stream = new Readable();
@@ -571,6 +590,7 @@ module.exports = {
     AUDIO_APIS,
     VIDEO_APIS,
     YTSEARCH_API,
+    searchGiftedTechYts,
     bufferToStream,
     getFileContentType,
     uploadToCatbox,
