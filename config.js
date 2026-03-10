@@ -9,7 +9,7 @@ const config = {
   token: process.env.BOT_TOKEN || "", // Your bot token
   owner_id: process.env.OWNER_ID || "", // Your telegram chat id
   prefix: process.env.PREFIX || "/", // Your preferred prefix
-  apiKey: process.env.API_KEY || "gifted", //Replace with yours
+  apiKey: process.env.API_KEY || "gifted", //Replace with your unlimited/paid apikey
   botName: process.env.BOT_NAME || "GIFTED-MD",
   timezone: process.env.TIMEZONE || "Africa/Nairobi",
   ownerName: process.env.OWNER_NAME || "Maurice Gift",
