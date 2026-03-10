@@ -63,7 +63,7 @@ function copyFolderSync(source, target) {
         const srcPath = path.join(source, item);
         const destPath = path.join(target, item);
 
-        if (item === ".env" || item === ".env.example" || item === "example.env" || item === ".example.env"  ) { // to preserve settings from env if any
+        if (item === ".env" || item === ".env.example" || item === "example.env" || item === ".example.env" || item === "README.md" || item === "LICENSE" || item === "Procfile" || item === "heroku.yml" || item === "app.json" || item === "version.txt"  ) { // to preserve settings from env if any
             continue;
         }
 
