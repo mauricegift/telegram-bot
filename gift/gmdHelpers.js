@@ -172,6 +172,8 @@ const VIDEO_APIS = [
     (url) => `${config.apiUrl}/api/download/savemp4?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`
 ];
 
+const YTSEARCH_API = 'https://yts.giftedtech.co.ke';
+
 function bufferToStream(buffer) {
     const stream = new Readable();
     stream.push(buffer);
@@ -568,6 +570,7 @@ module.exports = {
     tryDownloadWithFallback,
     AUDIO_APIS,
     VIDEO_APIS,
+    YTSEARCH_API,
     bufferToStream,
     getFileContentType,
     uploadToCatbox,
