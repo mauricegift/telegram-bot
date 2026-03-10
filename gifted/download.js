@@ -1,7 +1,8 @@
 const { gmd } = require('../gift');
 const config = require('../config');
-const { AUDIO_APIS, VIDEO_APIS, tryDownloadWithFallback, formatDuration, formatViews, cleanupFile, fs } = require('../gift/gmdHelpers');
-const yts = require("yt-search");
+const { AUDIO_APIS, VIDEO_APIS, tryDownloadWithFallback, formatDuration, formatViews, cleanupFile, fs, searchGiftedTechYts } = require('../gift/gmdHelpers');
+const axios = require('axios');
+
 
 gmd({
     pattern: "play",
@@ -16,7 +17,7 @@ async (msg, Gifted, conText) => {
     const { reply, q, prefix } = conText;
 
     if (!q) {
-        return await reply(`Please provide a song name!\nExample: ${prefix}play spectre`);
+        return await reply(`Please provide a song name or youtube url!\nExample: ${prefix}play spectre`);
     }
 
     let tempFilePath = null;
@@ -24,16 +25,16 @@ async (msg, Gifted, conText) => {
     try {
         await Gifted.sendChatAction(conText.chatId, 'typing');
 
-        const searchResults = await yts(q);
+        const videos = await searchGiftedTechYts(q);
 
-        if (!searchResults.videos.length) {
+        if (!videos || videos.length === 0) {
             return await reply('No video found for your query.');
         }
 
-        const video = searchResults.videos[0];
+        const video = videos[0];
         const videoUrl = video.url;
 
-        await reply(`Downloading: ${video.title}`);
+        await reply(`*Downloading:* ${video.name}\n*Duration:* ${video.duration || 'Unknown'}`);
         await Gifted.sendChatAction(conText.chatId, 'upload_audio');
 
         const result = await tryDownloadWithFallback(AUDIO_APIS, videoUrl, 'audio');
@@ -44,9 +45,9 @@ async (msg, Gifted, conText) => {
 
         tempFilePath = result.filePath;
         const downloadData = result.data;
-        const fileName = downloadData.result.title || video.title;
-        const duration = downloadData.result.duration || video.timestamp || video.duration;
-        const views = video.views;
+        const fileName = downloadData.result.title || video.name;
+        const duration = downloadData.result.duration || video.duration || '0:00';
+        const views = video.views || 0;
         const caption = `🎵 *${fileName.replace('.mp3', '')}*\n⏱️ Duration: ${formatDuration(duration)}\n👁️ Views: ${formatViews(views)}`;
 
         const stream = fs.createReadStream(tempFilePath);
@@ -80,7 +81,7 @@ async (msg, Gifted, conText) => {
     const { reply, q, prefix } = conText;
 
     if (!q) {
-        return await reply(`Please provide a video name!\nExample: ${prefix}video spectre`);
+        return await reply(`Please provide a video name or youtube url!\nExample: ${prefix}video spectre`);
     }
 
     let tempFilePath = null;
@@ -88,16 +89,16 @@ async (msg, Gifted, conText) => {
     try {
         await Gifted.sendChatAction(conText.chatId, 'typing');
 
-        const searchResults = await yts(q);
+        const videos = await searchGiftedTechYts(q);
 
-        if (!searchResults.videos.length) {
+        if (!videos || videos.length === 0) {
             return await reply('No video found for your query.');
         }
 
-        const video = searchResults.videos[0];
+        const video = videos[0];
         const videoUrl = video.url;
 
-        await reply(`Downloading: ${video.title}`);
+        await reply(`*Downloading:* ${video.name}\n*Duration:* ${video.duration || 'Unknown'}`);
         await Gifted.sendChatAction(conText.chatId, 'upload_video');
 
         const result = await tryDownloadWithFallback(VIDEO_APIS, videoUrl, 'video');
@@ -108,9 +109,9 @@ async (msg, Gifted, conText) => {
 
         tempFilePath = result.filePath;
         const downloadData = result.data;
-        const fileName = downloadData.result.title || video.title;
-        const duration = downloadData.result.duration || video.timestamp || video.duration;
-        const views = video.views;
+        const fileName = downloadData.result.title || video.name;
+        const duration = downloadData.result.duration || video.duration || '0:00';
+        const views = video.views || 0;
         const caption = `🎥 *${fileName.replace('.mp4', '')}*\n⏱️ Duration: ${formatDuration(duration)}\n👁️ Views: ${formatViews(views)}`;
 
         const stream = fs.createReadStream(tempFilePath);
@@ -128,5 +129,51 @@ async (msg, Gifted, conText) => {
         await reply('Error downloading video. Try again later.');
     } finally {
         cleanupFile(tempFilePath);
+    }
+});
+
+
+gmd({
+    pattern: "ytsearch",
+    aliases: ["yts"],
+    react: "🔍",
+    category: "download",
+    description: "Search YouTube videos",
+    cooldown: 5
+},
+
+async (msg, Gifted, conText) => {
+    const { reply, q, prefix } = conText;
+
+    if (!q) {
+        return await reply(`Please provide a search query!\nExample: ${prefix}ytsearch spectre`);
+    }
+
+    try {
+        await Gifted.sendChatAction(conText.chatId, 'typing');
+        
+        const videos = await searchGiftedTechYts(q);
+        
+        if (!videos || videos.length === 0) {
+            return await reply('No results found.');
+        }
+
+        let searchResult = `*🔍 Search Results for:* ${q}\n\n`;
+        
+        videos.slice(0, 5).forEach((video, index) => {
+            searchResult += `*${index + 1}.* ${video.name}\n`;
+            searchResult += `⏱️ Duration: ${video.duration || 'Unknown'}\n`;
+            searchResult += `👁️ Views: ${formatViews(video.views || 0)}\n`;
+            searchResult += `📺 Channel: ${video.author || 'Unknown'}\n`;
+            searchResult += `🔗 ID: ${video.id}\n\n`;
+        });
+        
+        searchResult += `_Use ${prefix}play <song name> or ${prefix}video <video name> to download_`;
+        
+        await reply(searchResult);
+
+    } catch (error) {
+        console.error('Search error:', error.message);
+        await reply('Error performing search. Try again later.');
     }
 });
