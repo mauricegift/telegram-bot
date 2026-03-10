@@ -589,7 +589,6 @@ module.exports = {
     tryDownloadWithFallback,
     AUDIO_APIS,
     VIDEO_APIS,
-    YTSEARCH_API,
     searchGiftedTechYts,
     bufferToStream,
     getFileContentType,
