@@ -172,7 +172,7 @@ const VIDEO_APIS = [
     (url) => `${config.apiUrl}/api/download/savemp4?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`
 ];
 
-const YTSEARCH_API = 'https://yts.giftedtech.co.ke';
+const YTSEARCH_API = 'https://yts.giftedtech.co.ke'; // Huggingface gets blocked buy Youtube so yt-search is useless
 
 function bufferToStream(buffer) {
     const stream = new Readable();
