@@ -557,7 +557,7 @@ async function downloadTgFile(bot, messageReply) {
 
     if (!fileId) return null;
 
-    const officialApi = "https://giftedtech-tgbotapi.hf.space";
+    const officialApi = "https://api.telegram.org";
     const fileInfo = await axios.get(`${officialApi}/bot${config.token}/getFile?file_id=${fileId}`);
     const filePath = fileInfo.data.result.file_path;
     const fileUrl = `${officialApi}/file/bot${config.token}/${filePath}`;
