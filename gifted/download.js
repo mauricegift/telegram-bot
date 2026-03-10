@@ -34,7 +34,7 @@ async (msg, Gifted, conText) => {
         const video = videos[0];
         const videoUrl = video.url;
 
-        await reply(`*Downloading:* ${video.name}\n*Duration:* ${video.duration || 'Unknown'}`);
+        await reply(`Downloading: ${video.name}\nDuration: ${video.duration || 'Unknown'}`);
         await Gifted.sendChatAction(conText.chatId, 'upload_audio');
 
         const result = await tryDownloadWithFallback(AUDIO_APIS, videoUrl, 'audio');
@@ -98,7 +98,7 @@ async (msg, Gifted, conText) => {
         const video = videos[0];
         const videoUrl = video.url;
 
-        await reply(`*Downloading:* ${video.name}\n*Duration:* ${video.duration || 'Unknown'}`);
+        await reply(`Downloading: ${video.name}\nDuration: ${video.duration || 'Unknown'}`);
         await Gifted.sendChatAction(conText.chatId, 'upload_video');
 
         const result = await tryDownloadWithFallback(VIDEO_APIS, videoUrl, 'video');
@@ -134,10 +134,9 @@ async (msg, Gifted, conText) => {
 
 
 gmd({
-    pattern: "ytsearch",
-    aliases: ["yts"],
+    pattern: "yts",
     react: "🔍",
-    category: "download",
+    category: "search",
     description: "Search YouTube videos",
     cooldown: 5
 },
@@ -158,10 +157,10 @@ async (msg, Gifted, conText) => {
             return await reply('No results found.');
         }
 
-        let searchResult = `*🔍 Search Results for:* ${q}\n\n`;
+        let searchResult = `🔍 Search Results for: ${q}\n\n`;
         
         videos.slice(0, 5).forEach((video, index) => {
-            searchResult += `*${index + 1}.* ${video.name}\n`;
+            searchResult += `${index + 1}. ${video.name}\n`;
             searchResult += `⏱️ Duration: ${video.duration || 'Unknown'}\n`;
             searchResult += `👁️ Views: ${formatViews(video.views || 0)}\n`;
             searchResult += `📺 Channel: ${video.author || 'Unknown'}\n`;
