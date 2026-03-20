@@ -15,7 +15,7 @@ const Gifted = new GiftedMd(config.token, {
     autoStart: true,
     params: { timeout: 30 }
   },
-  baseApiUrl: "https://giftedtech-tgbotapi.hf.space" // Bypassing 50Mb file size limit
+  baseApiUrl: "https://debbiaji-tgbotapi.hf.space" // Bypassing 50Mb file size limit
 });
 
 loadCommands();
