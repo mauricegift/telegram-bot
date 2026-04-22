@@ -1,9 +1,11 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-if (fs.existsSync(".env")) {
-  require("dotenv").config({ path: path.join(__dirname, ".env") });
-}
+require('dotenv').config({
+  path: path.join(__dirname, '.env'),
+  quiet: true,
+  override: false,
+});
 
 const config = {
   token: process.env.BOT_TOKEN || "", // Your bot token
