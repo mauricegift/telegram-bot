@@ -16,9 +16,9 @@ const config = {
   timezone: process.env.TIMEZONE || "Africa/Nairobi",
   ownerName: process.env.OWNER_NAME || "Maurice Gift",
   ownerUsername: process.env.OWNER_USERNAME || "mauricegift",
-  apiUrl: process.env.API_URL || "https://api.giftedtech.co.ke", // Can replce with yours
+  apiUrl: process.env.API_URL || "https://api.gifted.co.ke", // Can replce with yours
   artistName: process.env.ARTIST_NAME || "Powered by Gifted Apis",
-  url: process.env.URL || "https://gitcdn.giftedtech.co.ke/image/AZO_image.jpg",
+  url: process.env.URL || "https://gitcdn.gifted.co.ke/image/AZO_image.jpg",
   sourceUrl: process.env.SOURCE_URL || "https://github.com/mauricegift/telegram-bot",
 
   greetNewMembers: {
