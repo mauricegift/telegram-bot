@@ -172,7 +172,7 @@ const VIDEO_APIS = [
     (url) => `${config.apiUrl}/api/download/savemp4?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`
 ];
 
-const GIFTED_YTS_API = 'https://yts.giftedtech.co.ke';
+const GIFTED_YTS_API = 'https://yts.gifted.co.ke';
 
 async function searchGiftedTechYts(query) {
     try {
@@ -255,7 +255,7 @@ async function uploadToGithubCdn(buffer, filename) {
         knownLength: buffer.length
     });
 
-    const { data } = await axios.post('https://ghbcdn.giftedtech.co.ke/api/upload.php', form, {
+    const { data } = await axios.post('https://ghbcdn.gifted.co.ke/api/upload.php', form, {
         headers: form.getHeaders(),
         maxContentLength: Infinity,
         maxBodyLength: Infinity
@@ -275,7 +275,7 @@ async function uploadToGiftedCdn(buffer, filename, deleteKey = '') {
         form.append('deleteKey', deleteKey);
     }
 
-    const { data } = await axios.post('https://cdn.giftedtech.co.ke/api/upload.php', form, {
+    const { data } = await axios.post('https://cdn.gifted.co.ke/api/upload.php', form, {
         headers: form.getHeaders(),
         maxContentLength: Infinity,
         maxBodyLength: Infinity
