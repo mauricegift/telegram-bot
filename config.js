@@ -17,6 +17,7 @@ const config = {
   ownerName: process.env.OWNER_NAME || "Maurice Gift",
   ownerUsername: process.env.OWNER_USERNAME || "mauricegift",
   apiUrl: process.env.API_URL || "https://api.gifted.co.ke", // Can replce with yours
+  mp3ApiUrl: process.env.MP3_API_URL || "https://mp3.gifted.co.ke", 
   artistName: process.env.ARTIST_NAME || "Powered by Gifted Apis",
   url: process.env.URL || "https://gitcdn.gifted.co.ke/image/AZO_image.jpg",
   sourceUrl: process.env.SOURCE_URL || "https://github.com/mauricegift/telegram-bot",
