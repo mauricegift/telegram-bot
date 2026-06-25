@@ -153,6 +153,11 @@ async function tryDownloadWithFallback(apis, videoUrl, fileType) {
 }
 
 const AUDIO_APIS = [
+    // Primary: mcow.gifted.co.ke (fast)
+    (url) => `${config.mp3ApiUrl}/api/download/ytmp3v2?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`,
+    (url) => `${config.mp3ApiUrl}/api/download/ytaudio?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`,
+    (url) => `${config.mp3ApiUrl}/api/download/ytmp3?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`,
+    // Fallback: api.gifted.co.ke
     (url) => `${config.apiUrl}/api/download/ytmp3v2?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`,
     (url) => `${config.apiUrl}/api/download/ytaudio?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`,
     (url) => `${config.apiUrl}/api/download/yta?apikey=${config.apiKey}&url=${encodeURIComponent(url)}`,
